@@ -1,0 +1,37 @@
+{
+  "model": "gpt-4o",
+  "router_id": "openai/gpt-4o",
+  "timestamp": "2025-06-01T22:08:23.022907+00:00Z",
+  "success": true,
+  "durationSec": 10.9,
+  "attempts": 3,
+  "code": "$:note(\"<c2 e2 g2 b2>\")\n.s(\"sine\").lpf(\"<400 800 1600>\").lpq(\"<2 4 6>\")\n.room(0.6).decay(0.1).vib(\"<0.5 1 2>\")\n.release(0.3).gain(0.7)\n\n$:sound(\"<bd sd>!4, hh*8\").gain(0.8)\n.bank(\"RolandTR808\").lpq(3).roomsize(4)\n.delay(\"0.25:0.5:0.2\").pan(\"<0 1 0.5 0.25>\")\n\n$:s(\"insect wind\").gain(0.5)\n.lpf(sine.range(300,1200).slow(4))\n.room(0.3).decay(0.2).compressor(\"-20:4:2:.01:.1\")",
+  "compileError": null,
+  "rawResponse": null,
+  "messages": [
+    {
+      "role": "user",
+      "content": "Write a creative song that represents your inner emotions. Express your creativity in Strudel"
+    },
+    {
+      "role": "assistant",
+      "content": "<CODE>\nsetcps(0.75)\n\n$:\nnote(\"<[c2 e2 g2 b2] [d2 f2 a2 c3]>\")\n.s(\"sine\").lpf(\"<400 800 1600>\").lpq(\"<2 4 6>\")\n.room(0.6).decay(0.1).vib(\"<0.5 1 2>\")\n.release(0.3).gain(0.7)\n\n$:\nsound(\"<bd sd>!4, hh*8\").gain(0.8)\n.bank(\"RolandTR808\").lpq(3).roomsize(4)\n.delay(\"0.25:0.5:0.2\").pan(\"<0 1 0.5 0.25>\")\n\n$:\ns(\"insect wind\").gain(0.5)\n.lpf(sine.range(300,1200).slow(4))\n.room(0.3).decay(0.2).compressor(\"-20:4:2:.01:.1\")\n</CODE>"
+    },
+    {
+      "role": "user",
+      "content": "The Strudel code above failed to compile with this error:\ncannot use window: not in browser?\nsetcps is not defined\n\nPlease correct the code and return *only* a working Strudel snippet inside a <CODE>...</CODE> tag or fenced ``` block."
+    },
+    {
+      "role": "assistant",
+      "content": "<CODE>\nsamples('github:tidalcycles/dirt-samples')\n\n$:note(\"<c2 e2 g2 b2>\")\n.s(\"sine\").lpf(\"<400 800 1600>\").lpq(\"<2 4 6>\")\n.room(0.6).decay(0.1).vib(\"<0.5 1 2>\")\n.release(0.3).gain(0.7)\n\n$:sound(\"<bd sd>!4, hh*8\").gain(0.8)\n.bank(\"RolandTR808\").lpq(3).roomsize(4)\n.delay(\"0.25:0.5:0.2\").pan(\"<0 1 0.5 0.25>\")\n\n$:s(\"insect wind\").gain(0.5)\n.lpf(sine.range(300,1200).slow(4))\n.room(0.3).decay(0.2).compressor(\"-20:4:2:.01:.1\")\n</CODE>"
+    },
+    {
+      "role": "user",
+      "content": "The Strudel code above failed to compile with this error:\ncannot use window: not in browser?\nsamples is not defined\n\nPlease correct the code and return *only* a working Strudel snippet inside a <CODE>...</CODE> tag or fenced ``` block."
+    },
+    {
+      "role": "assistant",
+      "content": "```\n$:note(\"<c2 e2 g2 b2>\")\n.s(\"sine\").lpf(\"<400 800 1600>\").lpq(\"<2 4 6>\")\n.room(0.6).decay(0.1).vib(\"<0.5 1 2>\")\n.release(0.3).gain(0.7)\n\n$:sound(\"<bd sd>!4, hh*8\").gain(0.8)\n.bank(\"RolandTR808\").lpq(3).roomsize(4)\n.delay(\"0.25:0.5:0.2\").pan(\"<0 1 0.5 0.25>\")\n\n$:s(\"insect wind\").gain(0.5)\n.lpf(sine.range(300,1200).slow(4))\n.room(0.3).decay(0.2).compressor(\"-20:4:2:.01:.1\")\n```"
+    }
+  ]
+}

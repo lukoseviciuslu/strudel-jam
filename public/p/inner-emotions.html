@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STRUDEL-JAM.EXE - EXPERIMENT VIEWER</title>
+  <script src="https://unpkg.com/@strudel/embed@latest"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            'mono': ['Courier New', 'monospace'],
+            'system': ['MS Sans Serif', 'sans-serif'],
+          },
+          colors: {
+            'win-blue': '#0078d4',
+            'win-gray': '#c0c0c0',
+            'terminal-green': '#00ff00',
+            'terminal-bg': '#000000',
+            'desktop-blue': '#5A9FD4',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .window, .model-window {
+      position: absolute;
+      cursor: move;
+      user-select: none;
+      z-index: 10;
+      overflow: hidden;
+      min-width: 480px;
+      min-height: 300px;
+    }
+    .window.dragging, .model-window.dragging {
+      z-index: 50;
+    }
+    .window-content {
+      cursor: default;
+      height: calc(100% - 30px); /* Subtract title bar height */
+      overflow: hidden;
+    }
+    .window-title, .model-title {
+      cursor: move;
+    }
+    .resize-handle {
+      position: absolute;
+      background: transparent;
+    }
+    .resize-handle.se {
+      bottom: 0;
+      right: 0;
+      width: 15px;
+      height: 15px;
+      cursor: nw-resize;
+      background: linear-gradient(-45deg, transparent 40%, #999 40%, #999 60%, transparent 60%);
+    }
+    .resize-handle.e {
+      top: 0;
+      right: 0;
+      width: 5px;
+      height: 100%;
+      cursor: ew-resize;
+    }
+    .resize-handle.s {
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      cursor: ns-resize;
+    }
+    .document-icon {
+      position: absolute;
+      width: 60px;
+      height: 70px;
+      cursor: pointer;
+      user-select: none;
+      text-align: center;
+      z-index: 5;
+    }
+    .document-icon:hover {
+      background: rgba(0, 120, 212, 0.1);
+      border-radius: 4px;
+    }
+    .document-icon.selected {
+      background: rgba(0, 120, 212, 0.3);
+      border-radius: 4px;
+    }
+    body {
+      background: linear-gradient(45deg, #5A9FD4 0%, #7BB3E0 50%, #5A9FD4 100%);
+      background-attachment: fixed;
+    }
+  </style>
+</head>
+<body class="text-black font-mono text-sm min-h-screen overflow-hidden relative">
+  <!-- Windows XP Desktop Background -->
+  <div class="fixed inset-0 bg-gradient-to-br from-desktop-blue to-blue-600">
+    <!-- Desktop icons area -->
+    <div class="absolute top-4 left-4 space-y-6">
+      <div class="flex flex-col items-center text-white text-xs">
+        <div class="w-8 h-8 bg-yellow-500 border border-yellow-700 flex items-center justify-center mb-1">♪</div>
+        <span class="bg-blue-600/50 px-1 rounded">Experiments</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Taskbar -->
+  <div class="fixed bottom-0 left-0 right-0 bg-win-gray border-t-2 border-gray-400 h-10 flex items-center px-2 z-50">
+    <!-- Start button -->
+    <div class="bg-green-500 border-2 border-gray-400 px-3 py-1 text-xs font-bold text-black mr-2 cursor-pointer hover:bg-green-400">
+      Start
+    </div>
+    
+    <!-- Running programs -->
+    <div class="flex space-x-1">
+      <div class="bg-gray-300 border border-gray-400 px-2 py-1 text-xs font-system">
+        STRUDEL-JAM.EXE
+      </div>
+    </div>
+    
+    <!-- System tray -->
+    <div class="ml-auto flex items-center space-x-2 text-xs font-system">
+      <span class="bg-gray-200 border border-gray-400 px-2 py-1" id="clock"></span>
+    </div>
+  </div>
+
+  <!-- Main Application Window -->
+  <div class="window bg-win-gray border-2 border-gray-400 shadow-lg" style="top: 20px; left: 20px; width: calc(100vw - 60px); height: calc(100vh - 100px);">
+    <!-- Title bar -->
+    <div class="window-title bg-win-blue text-white px-2 py-1 flex items-center justify-between border-b border-gray-400">
+      <div class="flex items-center space-x-2">
+        <div class="w-4 h-4 bg-white border border-gray-400 flex items-center justify-center text-xs font-bold text-black">S</div>
+        <span class="font-system text-sm">STRUDEL-JAM.EXE - Experiment Viewer</span>
+      </div>
+      <div class="flex space-x-1">
+        <div class="w-4 h-4 bg-gray-300 border border-gray-600 text-xs flex items-center justify-center cursor-pointer hover:bg-gray-200">_</div>
+        <div class="w-4 h-4 bg-gray-300 border border-gray-600 text-xs flex items-center justify-center cursor-pointer hover:bg-gray-200">□</div>
+        <div class="w-4 h-4 bg-red-500 border border-gray-600 text-xs flex items-center justify-center text-white cursor-pointer hover:bg-red-400">×</div>
+      </div>
+    </div>
+
+    <!-- Window content -->
+    <div class="window-content bg-white h-full overflow-auto">
+      <!-- Navigation bar -->
+      <div class="bg-gray-200 border-b border-gray-400 p-2">
+        <a href="/" class="inline-flex items-center text-black hover:bg-gray-300 px-2 py-1 border border-gray-400 bg-white font-system text-xs">
+          ← BACK TO EXPERIMENTS.DIR
+        </a>
+      </div>
+
+      <!-- Header section -->
+      <div class="p-4 border-b-2 border-gray-400">
+        <div class="flex items-center space-x-3 mb-2">
+          <div class="w-8 h-8 bg-blue-500 border border-gray-600 flex items-center justify-center text-white font-bold">♪</div>
+          <h1 id="prompt-title" class="text-2xl font-bold text-black font-mono tracking-wider uppercase"></h1>
+        </div>
+        
+        <!-- Terminal-style prompt display -->
+        <div class="bg-terminal-bg text-terminal-green p-3 border border-gray-500 font-mono text-xs">
+          <div class="mb-1">C:\EXPERIMENTS\> LOAD_PROMPT.BAT</div>
+          <div class="mb-1">C:\EXPERIMENTS\> PROMPT_TEXT:</div>
+          <div id="prompt-text" class="ml-4 text-yellow-300"></div>
+          <div class="mt-1">C:\EXPERIMENTS\> STATUS: READY_FOR_COMPARISON</div>
+          <div class="mt-1">C:\EXPERIMENTS\> SPAWNING_MODEL_WINDOWS...</div>
+        </div>
+      </div>
+
+      <!-- Desktop workspace for model windows -->
+      <div id="desktop-workspace" class="relative bg-gray-100 min-h-[600px] p-4">
+        <div class="text-center text-gray-500 font-mono text-sm mb-4">
+          [ DESKTOP_WORKSPACE.AREA ] - Model windows will appear here
+        </div>
+        <div id="model-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { renderPrompt } from '/pages/prompt.js';
+    
+    // Clock functionality
+    function updateClock() {
+      const now = new Date();
+      const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+      document.getElementById('clock').textContent = timeString;
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // Drag and resize functionality
+    let draggedElement = null;
+    let resizedElement = null;
+    let initialX, initialY, currentX, currentY;
+    let resizeType = null;
+    let documentIcons = [];
+    let zIndexCounter = 10; // Start above base windows
+
+    function initDragAndResize() {
+      document.addEventListener('mousedown', startDragOrResize);
+      document.addEventListener('mousemove', dragOrResize);
+      document.addEventListener('mouseup', endDragOrResize);
+    }
+
+    function bringToFront(window) {
+      window.style.zIndex = ++zIndexCounter;
+    }
+
+    function startDragOrResize(e) {
+      // Bring window to front when clicked anywhere on it
+      const window = e.target.closest('.model-window');
+      if (window) {
+        bringToFront(window);
+      }
+      
+      // Check if clicking on resize handle
+      if (e.target.classList.contains('resize-handle')) {
+        if (window) {
+          resizedElement = window;
+          resizedElement.classList.add('dragging');
+          resizeType = Array.from(e.target.classList).find(c => ['se', 'e', 's'].includes(c));
+          
+          const rect = resizedElement.getBoundingClientRect();
+          initialX = e.clientX;
+          initialY = e.clientY;
+          
+          e.preventDefault();
+          return;
+        }
+      }
+      
+      // Check if clicking on close button
+      if (e.target.textContent === '×' && e.target.closest('.model-title')) {
+        if (window) {
+          closeWindow(window);
+          e.preventDefault();
+          return;
+        }
+      }
+      
+      // Check if clicking on document icon
+      if (e.target.closest('.document-icon')) {
+        const icon = e.target.closest('.document-icon');
+        restoreWindow(icon);
+        e.preventDefault();
+        return;
+      }
+      
+      // Regular drag functionality
+      if (window && e.target.closest('.model-title') && !e.target.classList.contains('resize-handle')) {
+        draggedElement = window;
+        draggedElement.classList.add('dragging');
+        
+        const rect = draggedElement.getBoundingClientRect();
+        const workspaceRect = document.getElementById('desktop-workspace').getBoundingClientRect();
+        
+        initialX = e.clientX - (rect.left - workspaceRect.left);
+        initialY = e.clientY - (rect.top - workspaceRect.top);
+        
+        e.preventDefault();
+      }
+    }
+
+    function dragOrResize(e) {
+      // Handle resizing
+      if (resizedElement) {
+        e.preventDefault();
+        const deltaX = e.clientX - initialX;
+        const deltaY = e.clientY - initialY;
+        
+        const currentWidth = resizedElement.offsetWidth;
+        const currentHeight = resizedElement.offsetHeight;
+        
+        if (resizeType === 'se') {
+          resizedElement.style.width = Math.max(480, currentWidth + deltaX) + 'px';
+          resizedElement.style.height = Math.max(300, currentHeight + deltaY) + 'px';
+        } else if (resizeType === 'e') {
+          resizedElement.style.width = Math.max(480, currentWidth + deltaX) + 'px';
+        } else if (resizeType === 's') {
+          resizedElement.style.height = Math.max(300, currentHeight + deltaY) + 'px';
+        }
+        
+        initialX = e.clientX;
+        initialY = e.clientY;
+        return;
+      }
+      
+      // Handle dragging
+      if (draggedElement) {
+        e.preventDefault();
+        currentX = e.clientX - initialX;
+        currentY = e.clientY - initialY;
+        
+        // Keep within workspace bounds
+        const workspace = document.getElementById('desktop-workspace');
+        const maxX = workspace.clientWidth - draggedElement.offsetWidth;
+        const maxY = workspace.clientHeight - draggedElement.offsetHeight;
+        
+        currentX = Math.max(0, Math.min(currentX, maxX));
+        currentY = Math.max(0, Math.min(currentY, maxY));
+        
+        draggedElement.style.left = currentX + 'px';
+        draggedElement.style.top = currentY + 'px';
+      }
+    }
+
+    function endDragOrResize() {
+      if (draggedElement) {
+        draggedElement.classList.remove('dragging');
+        draggedElement = null;
+      }
+      if (resizedElement) {
+        resizedElement.classList.remove('dragging');
+        resizedElement = null;
+        resizeType = null;
+      }
+    }
+
+    function closeWindow(window) {
+      const modelName = window.querySelector('.model-title span').textContent.replace('.EXE', '');
+      const rect = window.getBoundingClientRect();
+      const workspaceRect = document.getElementById('desktop-workspace').getBoundingClientRect();
+      
+      // Create document icon
+      const icon = document.createElement('div');
+      icon.className = 'document-icon';
+      icon.innerHTML = `
+        <div class="w-8 h-10 bg-white border border-gray-400 mx-auto mb-1 flex items-center justify-center text-xs font-bold relative">
+          <div class="absolute top-0 right-0 w-2 h-2 bg-gray-300 border-l border-b border-gray-400"></div>
+          AI
+        </div>
+        <div class="text-xs text-white bg-blue-600/70 px-1 rounded truncate max-w-full" style="font-size: 10px;">
+          ${modelName}
+        </div>
+      `;
+      
+      // Position icon in available space
+      const iconX = Math.max(10, (rect.left - workspaceRect.left) % (workspaceRect.width - 70));
+      const iconY = Math.max(10, (rect.top - workspaceRect.top) % (workspaceRect.height - 80));
+      
+      icon.style.left = iconX + 'px';
+      icon.style.top = iconY + 'px';
+      icon.dataset.modelData = JSON.stringify({
+        html: window.outerHTML,
+        modelName: modelName
+      });
+      
+      document.getElementById('desktop-workspace').appendChild(icon);
+      window.remove();
+    }
+
+    function restoreWindow(icon) {
+      const data = JSON.parse(icon.dataset.modelData);
+      const workspace = document.getElementById('desktop-workspace');
+      
+      // Create new window from stored HTML
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = data.html;
+      const newWindow = tempDiv.firstElementChild;
+      
+      // Position it slightly offset from icon
+      const iconRect = icon.getBoundingClientRect();
+      const workspaceRect = workspace.getBoundingClientRect();
+      
+      newWindow.style.left = Math.min(workspaceRect.width - 450, (iconRect.left - workspaceRect.left) + 20) + 'px';
+      newWindow.style.top = Math.min(workspaceRect.height - 400, (iconRect.top - workspaceRect.top) + 20) + 'px';
+      
+      workspace.appendChild(newWindow);
+      icon.remove();
+      
+      // Re-initialize any event listeners on the restored window
+      initializeWindowEvents(newWindow);
+    }
+
+    function initializeWindowEvents(window) {
+      // Re-attach minimize/code toggle events
+      const minimizeBtn = window.querySelector('.minimize-btn');
+      const codeBtn = window.querySelector('.code-btn');
+      const codeSection = window.querySelector('.code-section');
+      const replContainer = window.querySelector('.repl-container');
+      
+      if (minimizeBtn && replContainer) {
+        let replMinimized = false;
+        const replHeight = parseInt(replContainer.style.minHeight) || 250;
+        
+        minimizeBtn.onclick = () => {
+          if (replMinimized) {
+            replContainer.style.minHeight = replHeight + 'px';
+            replContainer.style.height = 'auto';
+            minimizeBtn.textContent = '[MIN]';
+            replMinimized = false;
+          } else {
+            replContainer.style.minHeight = '50px';
+            replContainer.style.height = '50px';
+            minimizeBtn.textContent = '[MAX]';
+            replMinimized = true;
+          }
+        };
+      }
+      
+      if (codeBtn && codeSection) {
+        codeBtn.onclick = () => {
+          codeSection.classList.toggle('hidden');
+          codeBtn.textContent = codeSection.classList.contains('hidden') ? '[CODE]' : '[HIDE]';
+        };
+      }
+    }
+
+    // Initialize everything
+    initDragAndResize();
+    renderPrompt();
+  </script>
+</body>
+</html> 

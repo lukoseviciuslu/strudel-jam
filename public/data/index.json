@@ -1,0 +1,247 @@
+[
+  {
+    "promptSlug": "the-color-yellow",
+    "title": "the color yellow",
+    "dateRun": "2025-06-01",
+    "models": [
+      {
+        "name": "claude-3-5-sonnet",
+        "card": "the-color-yellow/claude-3-5-sonnet.json"
+      },
+      {
+        "name": "claude-3-7-sonnet",
+        "card": "the-color-yellow/claude-3-7-sonnet.json"
+      },
+      {
+        "name": "claude-3-haiku",
+        "card": "the-color-yellow/claude-3-haiku.json"
+      },
+      {
+        "name": "claude-sonnet-4",
+        "card": "the-color-yellow/claude-sonnet-4.json"
+      },
+      {
+        "name": "gemini-2-5-pro-preview",
+        "card": "the-color-yellow/gemini-2-5-pro-preview.json"
+      },
+      {
+        "name": "gpt-4o",
+        "card": "the-color-yellow/gpt-4o.json"
+      },
+      {
+        "name": "gpt-4o-mini",
+        "card": "the-color-yellow/gpt-4o-mini.json"
+      }
+    ]
+  },
+  {
+    "promptSlug": "ambient-soundscape",
+    "title": "ambient soundscape",
+    "dateRun": "2025-06-01",
+    "models": [
+      {
+        "name": "claude-3-5-sonnet",
+        "card": "ambient-soundscape/claude-3-5-sonnet.json"
+      },
+      {
+        "name": "claude-3-7-sonnet",
+        "card": "ambient-soundscape/claude-3-7-sonnet.json"
+      },
+      {
+        "name": "claude-3-haiku",
+        "card": "ambient-soundscape/claude-3-haiku.json"
+      },
+      {
+        "name": "claude-sonnet-4",
+        "card": "ambient-soundscape/claude-sonnet-4.json"
+      },
+      {
+        "name": "gemini-2-5-pro-preview",
+        "card": "ambient-soundscape/gemini-2-5-pro-preview.json"
+      },
+      {
+        "name": "gpt-4o",
+        "card": "ambient-soundscape/gpt-4o.json"
+      },
+      {
+        "name": "gpt-4o-mini",
+        "card": "ambient-soundscape/gpt-4o-mini.json"
+      }
+    ]
+  },
+  {
+    "promptSlug": "inner-emotions",
+    "title": "inner emotions",
+    "dateRun": "2025-06-01",
+    "models": [
+      {
+        "name": "claude-3-5-sonnet",
+        "card": "inner-emotions/claude-3-5-sonnet.json"
+      },
+      {
+        "name": "claude-3-7-sonnet",
+        "card": "inner-emotions/claude-3-7-sonnet.json"
+      },
+      {
+        "name": "claude-3-haiku",
+        "card": "inner-emotions/claude-3-haiku.json"
+      },
+      {
+        "name": "claude-sonnet-4",
+        "card": "inner-emotions/claude-sonnet-4.json"
+      },
+      {
+        "name": "gemini-2-5-pro-preview",
+        "card": "inner-emotions/gemini-2-5-pro-preview.json"
+      },
+      {
+        "name": "gpt-4o",
+        "card": "inner-emotions/gpt-4o.json"
+      },
+      {
+        "name": "gpt-4o-mini",
+        "card": "inner-emotions/gpt-4o-mini.json"
+      }
+    ]
+  },
+  {
+    "promptSlug": "alien-disco-party",
+    "title": "alien disco party",
+    "dateRun": "2025-06-01",
+    "models": [
+      {
+        "name": "claude-3-5-sonnet",
+        "card": "alien-disco-party/claude-3-5-sonnet.json"
+      },
+      {
+        "name": "claude-3-7-sonnet",
+        "card": "alien-disco-party/claude-3-7-sonnet.json"
+      },
+      {
+        "name": "claude-3-haiku",
+        "card": "alien-disco-party/claude-3-haiku.json"
+      },
+      {
+        "name": "claude-sonnet-4",
+        "card": "alien-disco-party/claude-sonnet-4.json"
+      },
+      {
+        "name": "gemini-2-5-pro-preview",
+        "card": "alien-disco-party/gemini-2-5-pro-preview.json"
+      },
+      {
+        "name": "gpt-4o",
+        "card": "alien-disco-party/gpt-4o.json"
+      },
+      {
+        "name": "gpt-4o-mini",
+        "card": "alien-disco-party/gpt-4o-mini.json"
+      }
+    ]
+  },
+  {
+    "promptSlug": "current-mood",
+    "title": "current mood",
+    "dateRun": "2025-06-01",
+    "models": [
+      {
+        "name": "claude-3-5-sonnet",
+        "card": "current-mood/claude-3-5-sonnet.json"
+      },
+      {
+        "name": "claude-3-7-sonnet",
+        "card": "current-mood/claude-3-7-sonnet.json"
+      },
+      {
+        "name": "claude-3-haiku",
+        "card": "current-mood/claude-3-haiku.json"
+      },
+      {
+        "name": "claude-sonnet-4",
+        "card": "current-mood/claude-sonnet-4.json"
+      },
+      {
+        "name": "gemini-2-5-pro-preview",
+        "card": "current-mood/gemini-2-5-pro-preview.json"
+      },
+      {
+        "name": "gpt-4o",
+        "card": "current-mood/gpt-4o.json"
+      },
+      {
+        "name": "gpt-4o-mini",
+        "card": "current-mood/gpt-4o-mini.json"
+      }
+    ]
+  },
+  {
+    "promptSlug": "melodic-techno",
+    "title": "melodic techno",
+    "dateRun": "2025-06-01",
+    "models": [
+      {
+        "name": "gpt-4o",
+        "card": "melodic-techno/gpt-4o.json"
+      },
+      {
+        "name": "gpt-4o-mini",
+        "card": "melodic-techno/gpt-4o-mini.json"
+      },
+      {
+        "name": "claude-3-7-sonnet",
+        "card": "melodic-techno/claude-3-7-sonnet.json"
+      },
+      {
+        "name": "claude-sonnet-4",
+        "card": "melodic-techno/claude-sonnet-4.json"
+      },
+      {
+        "name": "claude-3-haiku",
+        "card": "melodic-techno/claude-3-haiku.json"
+      },
+      {
+        "name": "claude-3-5-sonnet",
+        "card": "melodic-techno/claude-3-5-sonnet.json"
+      },
+      {
+        "name": "gemini-2-5-pro-preview",
+        "card": "melodic-techno/gemini-2-5-pro-preview.json"
+      }
+    ]
+  },
+  {
+    "promptSlug": "trap-beat",
+    "title": "trap beat",
+    "dateRun": "2025-06-01",
+    "models": [
+      {
+        "name": "gpt-4o",
+        "card": "trap-beat/gpt-4o.json"
+      },
+      {
+        "name": "gpt-4o-mini",
+        "card": "trap-beat/gpt-4o-mini.json"
+      },
+      {
+        "name": "claude-3-7-sonnet",
+        "card": "trap-beat/claude-3-7-sonnet.json"
+      },
+      {
+        "name": "claude-sonnet-4",
+        "card": "trap-beat/claude-sonnet-4.json"
+      },
+      {
+        "name": "claude-3-haiku",
+        "card": "trap-beat/claude-3-haiku.json"
+      },
+      {
+        "name": "claude-3-5-sonnet",
+        "card": "trap-beat/claude-3-5-sonnet.json"
+      },
+      {
+        "name": "gemini-2-5-pro-preview",
+        "card": "trap-beat/gemini-2-5-pro-preview.json"
+      }
+    ]
+  }
+]

@@ -1,0 +1,59 @@
+name: StrudelJam Pipeline
+
+on:
+  workflow_dispatch:        # manual button
+  push:                     # auto when you add prompt/model files
+    branches: [ main ]
+    paths:
+      - 'public/prompts/**'
+      - 'models/**'
+      - 'scripts/**'
+      - 'context.txt'
+
+jobs:
+  bench:
+    runs-on: ubuntu-latest
+    env:
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+
+    steps:
+    - uses: actions/checkout@v4
+
+    # ----- install build-time deps -----
+    - uses: actions/setup-node@v4
+      with: 
+        node-version: 18
+
+    - name: Install Strudel core
+      run: npm install -g @strudel/core
+
+    - name: Install Python deps
+      run: python -m pip install requests
+
+    # ----- run the pipeline -----
+    - name: Run new prompt/model combos
+      run: python scripts/run_bench.py --only-new
+
+    # ----- commit data back -----
+    - name: Commit updated data
+      run: |
+        git config --global user.email "bot@github.com"
+        git config --global user.name  "GitHub Actions"
+        git add public/data/
+        git commit -m "auto: update benchmark data" || echo "nothing to commit"
+        git push
+
+    # ----- generate prompt pages -----
+    - name: Generate prompt pages
+      run: |
+        if [ -f data/index.json ]; then
+          python scripts/generate_pages.py
+        fi
+
+    # ----- deploy GitHub Pages -----
+    - name: Deploy site
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: public
+        # cname: your-domain.com  # optional: uncomment and add your custom domain 

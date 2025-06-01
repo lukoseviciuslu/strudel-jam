@@ -1,0 +1,37 @@
+{
+  "model": "claude-sonnet-4",
+  "router_id": "anthropic/claude-sonnet-4",
+  "timestamp": "2025-06-01T22:33:20.484876+00:00Z",
+  "success": true,
+  "durationSec": 18.82,
+  "attempts": 3,
+  "code": "// 2010s Trap Beat\nstack(\n  // Main 808 pattern\n  note(\"c1 ~ c1 ~ c1 ~ [c1 c1] ~\")\n  .s(\"sine\").decay(0.3).distort(2)\n  .lpf(100).gain(1.2),\n  \n  // Snare with rolls\n  s(\"~ sd ~ [sd sd*3]\")\n  .bank(\"RolandTR808\")\n  .sometimes(ply(\"3\"))\n  .gain(0.8).room(0.1),\n  \n  // Hi-hat pattern\n  s(\"hh*8\").n(\"<0 1 2 0 1 3 2 1>\")\n  .bank(\"RolandTR808\")\n  .gain(\"[0.3 0.8]*4\")\n  .pan(sine.slow(4).range(0.3, 0.7)),\n  \n  // Kick accent\n  s(\"bd ~ ~ ~ bd ~ ~ ~\")\n  .bank(\"RolandTR808\")\n  .distort(0.5).gain(0.6),\n  \n  // Trap claps/snares\n  s(\"~ ~ ~ cp\")\n  .bank(\"RolandTR909\")\n  .delay(0.125).room(0.2)\n  .sometimes(x => x.speed(1.5)),\n  \n  // Sample chops/stabs\n  s(\"jazz:2*2\").chop(4)\n  .speed(\"[1 -0.5]*2\")\n  .lpf(2000).gain(0.4)\n  .mask(\"<0 0 1 0>/4\")\n  .crush(8).delay(0.25),\n  \n  // Air horn/siren drops\n  s(\"siren\").speed(2)\n  .mask(\"<0 0 0 1>/16\")\n  .delay(0.5).gain(0.3)\n)\n.room(0.1)\n.cpm(75)",
+  "compileError": null,
+  "rawResponse": null,
+  "messages": [
+    {
+      "role": "user",
+      "content": "A punchy 2010s trap beat with hard-hitting drums, drops and samples"
+    },
+    {
+      "role": "assistant",
+      "content": "I'll create a punchy 2010s trap beat with hard-hitting 808s, snappy snares, and some classic trap elements like rolls and drops.\n\n<CODE>\n// 2010s Trap Beat\nsetcps(0.6)\n\nstack(\n  // Main 808 pattern\n  note(\"c1 ~ c1 ~ c1 ~ [c1 c1] ~\")\n  .s(\"sine\").decay(0.3).distort(2)\n  .lpf(100).gain(1.2),\n  \n  // Snare with rolls\n  s(\"~ sd ~ [sd sd*3]\")\n  .bank(\"RolandTR808\")\n  .sometimes(ply(\"3\"))\n  .gain(0.8).room(0.1),\n  \n  // Hi-hat pattern\n  s(\"hh*8\").n(\"<0 1 2 0 1 3 2 1>\")\n  .bank(\"RolandTR808\")\n  .gain(\"[0.3 0.8]*4\")\n  .pan(sine.slow(4).range(0.3, 0.7)),\n  \n  // Kick accent\n  s(\"bd ~ ~ ~ bd ~ ~ ~\")\n  .bank(\"RolandTR808\")\n  .distort(0.5).gain(0.6),\n  \n  // Trap claps/snares\n  s(\"~ ~ ~ cp\")\n  .bank(\"RolandTR909\")\n  .delay(0.125).room(0.2)\n  .sometimes(x => x.speed(1.5)),\n  \n  // Sample chops/stabs\n  s(\"jazz:2*2\").chop(4)\n  .speed(\"[1 -0.5]*2\")\n  .lpf(2000).gain(0.4)\n  .mask(\"<0 0 1 0>/4\")\n  .crush(8).delay(0.25),\n  \n  // Air horn/siren drops\n  s(\"siren\").speed(2)\n  .mask(\"<0 0 0 1>/16\")\n  .delay(0.5).gain(0.3)\n)\n.room(0.1).compress(\"-20:8:2:0.003:0.1\")\n</CODE>"
+    },
+    {
+      "role": "user",
+      "content": "The Strudel code above failed to compile with this error:\ncannot use window: not in browser?\nsetcps is not defined\n\nPlease correct the code and return *only* a working Strudel snippet inside a <CODE>...</CODE> tag or fenced ``` block."
+    },
+    {
+      "role": "assistant",
+      "content": "<CODE>\n// 2010s Trap Beat\nstack(\n  // Main 808 pattern\n  note(\"c1 ~ c1 ~ c1 ~ [c1 c1] ~\")\n  .s(\"sine\").decay(0.3).distort(2)\n  .lpf(100).gain(1.2),\n  \n  // Snare with rolls\n  s(\"~ sd ~ [sd sd*3]\")\n  .bank(\"RolandTR808\")\n  .sometimes(ply(\"3\"))\n  .gain(0.8).room(0.1),\n  \n  // Hi-hat pattern\n  s(\"hh*8\").n(\"<0 1 2 0 1 3 2 1>\")\n  .bank(\"RolandTR808\")\n  .gain(\"[0.3 0.8]*4\")\n  .pan(sine.slow(4).range(0.3, 0.7)),\n  \n  // Kick accent\n  s(\"bd ~ ~ ~ bd ~ ~ ~\")\n  .bank(\"RolandTR808\")\n  .distort(0.5).gain(0.6),\n  \n  // Trap claps/snares\n  s(\"~ ~ ~ cp\")\n  .bank(\"RolandTR909\")\n  .delay(0.125).room(0.2)\n  .sometimes(x => x.speed(1.5)),\n  \n  // Sample chops/stabs\n  s(\"jazz:2*2\").chop(4)\n  .speed(\"[1 -0.5]*2\")\n  .lpf(2000).gain(0.4)\n  .mask(\"<0 0 1 0>/4\")\n  .crush(8).delay(0.25),\n  \n  // Air horn/siren drops\n  s(\"siren\").speed(2)\n  .mask(\"<0 0 0 1>/16\")\n  .delay(0.5).gain(0.3)\n)\n.room(0.1).compress(\"-20:8:2:0.003:0.1\")\n.cpm(75)\n</CODE>"
+    },
+    {
+      "role": "user",
+      "content": "The Strudel code above failed to compile with this error:\ncannot use window: not in browser?\n.compress() expects 2 inputs but got 1.\n\nPlease correct the code and return *only* a working Strudel snippet inside a <CODE>...</CODE> tag or fenced ``` block."
+    },
+    {
+      "role": "assistant",
+      "content": "<CODE>\n// 2010s Trap Beat\nstack(\n  // Main 808 pattern\n  note(\"c1 ~ c1 ~ c1 ~ [c1 c1] ~\")\n  .s(\"sine\").decay(0.3).distort(2)\n  .lpf(100).gain(1.2),\n  \n  // Snare with rolls\n  s(\"~ sd ~ [sd sd*3]\")\n  .bank(\"RolandTR808\")\n  .sometimes(ply(\"3\"))\n  .gain(0.8).room(0.1),\n  \n  // Hi-hat pattern\n  s(\"hh*8\").n(\"<0 1 2 0 1 3 2 1>\")\n  .bank(\"RolandTR808\")\n  .gain(\"[0.3 0.8]*4\")\n  .pan(sine.slow(4).range(0.3, 0.7)),\n  \n  // Kick accent\n  s(\"bd ~ ~ ~ bd ~ ~ ~\")\n  .bank(\"RolandTR808\")\n  .distort(0.5).gain(0.6),\n  \n  // Trap claps/snares\n  s(\"~ ~ ~ cp\")\n  .bank(\"RolandTR909\")\n  .delay(0.125).room(0.2)\n  .sometimes(x => x.speed(1.5)),\n  \n  // Sample chops/stabs\n  s(\"jazz:2*2\").chop(4)\n  .speed(\"[1 -0.5]*2\")\n  .lpf(2000).gain(0.4)\n  .mask(\"<0 0 1 0>/4\")\n  .crush(8).delay(0.25),\n  \n  // Air horn/siren drops\n  s(\"siren\").speed(2)\n  .mask(\"<0 0 0 1>/16\")\n  .delay(0.5).gain(0.3)\n)\n.room(0.1)\n.cpm(75)\n</CODE>"
+    }
+  ]
+}

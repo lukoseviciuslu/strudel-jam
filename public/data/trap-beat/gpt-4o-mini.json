@@ -1,0 +1,37 @@
+{
+  "model": "gpt-4o-mini",
+  "router_id": "openai/gpt-4o-mini",
+  "timestamp": "2025-06-01T22:33:09.035347+00:00Z",
+  "success": false,
+  "durationSec": 18.75,
+  "attempts": 3,
+  "code": null,
+  "compileError": "cannot use window: not in browser?\nInvalid argument",
+  "rawResponse": "<CODE>\nstack(\n  s(\"bd*4, sd*2, hh*8\").bank(\"RolandTR808\"),\n  s(\"cp, rim\").bank(\"RolandTR808\").ply(\"<1 2>*2\"),\n  s(\"sh*4, cb*2\").gain(0.5),\n  n(\"<0 1 2 3>\").scale(\"C:min\").s(\"jazz\")\n).room(0.8).cpm(120)\n</CODE>",
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "<CODE>\nstack(\n  s(\"bd*4, sd*2, hh*8\").bank(\"RolandTR808\").cpm(120),\n  s(\"cp, rim\").bank(\"RolandTR808\").ply(\"<1 2>*2\"),\n  s(\"sh*4, cb*2\").gain(.5).loop(1),\n  n(\"<0 1 2 3 0 2 3>\").scale(\"C:min\").s(\"jazz\").clip(1)\n).room(.8)\n</CODE>"
+    },
+    {
+      "role": "user",
+      "content": "The Strudel code above failed to compile with this error:\ncannot use window: not in browser?\nInvalid argument\n\nPlease correct the code and return *only* a working Strudel snippet inside a <CODE>...</CODE> tag or fenced ``` block."
+    },
+    {
+      "role": "assistant",
+      "content": "<CODE>\nstack(\n  s(\"bd*4, sd*2, hh*8\").bank(\"RolandTR808\").cpm(120),\n  s(\"cp, rim\").bank(\"RolandTR808\").ply(\"<1 2>*2\"),\n  s(\"sh*4, cb*2\").gain(.5),\n  n(\"<0 1 2 3>\").scale(\"C:min\").s(\"jazz\").clip(1)\n).room(.8)\n</CODE>"
+    },
+    {
+      "role": "user",
+      "content": "The Strudel code above failed to compile with this error:\ncannot use window: not in browser?\nInvalid argument\n\nPlease correct the code and return *only* a working Strudel snippet inside a <CODE>...</CODE> tag or fenced ``` block."
+    },
+    {
+      "role": "assistant",
+      "content": "<CODE>\nstack(\n  s(\"bd*4, sd*2, hh*8\").bank(\"RolandTR808\"),\n  s(\"cp, rim\").bank(\"RolandTR808\").ply(\"<1 2>*2\"),\n  s(\"sh*4, cb*2\").gain(0.5),\n  n(\"<0 1 2 3>\").scale(\"C:min\").s(\"jazz\")\n).room(0.8).cpm(120)\n</CODE>"
+    },
+    {
+      "role": "user",
+      "content": "The Strudel code above failed to compile with this error:\ncannot use window: not in browser?\nInvalid argument\n\nPlease correct the code and return *only* a working Strudel snippet inside a <CODE>...</CODE> tag or fenced ``` block."
+    }
+  ]
+}
