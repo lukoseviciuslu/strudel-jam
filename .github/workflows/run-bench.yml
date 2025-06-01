@@ -46,9 +46,20 @@ jobs:
     # ----- generate prompt pages -----
     - name: Generate prompt pages
       run: |
-        if [ -f data/index.json ]; then
+        if [ -f public/data/index.json ]; then
           python scripts/generate_pages.py
+        else
+          echo "public/data/index.json not found, skipping page generation."
         fi
+
+    # ----- DEBUG: List data directory before deploy -----
+    - name: List data directory contents
+      run: |
+        echo "Listing public/data directory:"
+        ls -R public/data || echo "public/data directory not found or empty"
+        echo "Current working directory: $(pwd)"
+        echo "Listing root of workspace:"
+        ls -A .
 
     # ----- deploy GitHub Pages -----
     - name: Deploy site
