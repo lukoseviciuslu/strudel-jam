@@ -6,7 +6,7 @@
   const experimentBar = document.getElementById('experiment-bar');
   
   try {
-    const data = await fetch('/data/index.json').then(r => r.json());
+    const data = await fetch('../data/index.json').then(r => r.json());
 
     if (data.length === 0) {
       grid.classList.add('hidden');
@@ -43,7 +43,7 @@
 
     for (const prompt of data) {
       const row = document.createElement('a');
-      row.href = `/p/${prompt.promptSlug}.html`;
+      row.href = `../p/${prompt.promptSlug}.html`;
       row.className = `
         block hover:bg-blue-100 p-2 font-system text-xs flex items-center
         border-l-2 border-transparent hover:border-blue-500 transition-colors duration-200
