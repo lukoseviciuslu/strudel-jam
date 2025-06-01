@@ -1,9 +1,10 @@
 export async function renderPrompt() {
   // Extract slug from pathname
   const slug = location.pathname.split('/').pop().replace('.html', '');
+  const basePath = window.location.pathname.startsWith('/strudel-jam/') ? '/strudel-jam' : '';
   
   try {
-    const index = await (await fetch('/data/index.json')).json();
+    const index = await (await fetch(`${basePath}/data/index.json`)).json();
     const entry = index.find(p => p.promptSlug === slug);
     
     if (!entry) {
@@ -18,7 +19,7 @@ export async function renderPrompt() {
     
     // Try to load prompt text
     try {
-      const promptPath = `/prompts/${slug}.md`;
+      const promptPath = `${basePath}/prompts/${slug}.md`;
       const promptText = await (await fetch(promptPath)).text();
       document.getElementById('prompt-text').textContent = promptText;
     } catch (e) {
@@ -280,61 +281,66 @@ export async function renderPrompt() {
         }
       });
       
-      // Load card data
-      fetch(`/data/${m.card}`).then(r => r.json()).then(cardData => {
-        if (cardData.success) {
-          statusBadge.innerHTML = '<span class="bg-green-500 text-white px-2 py-1 border border-green-700 flicker text-xs">OK</span>';
-          audioStatus.textContent = 'READY';
+      // Fetch model data
+      fetch(`${basePath}/data/${entry.promptSlug}/${m.card}`)
+        .then(response => {
+          if (!response.ok) throw new Error(`HTTP error! status: ${response.status} for ${m.card} under ${entry.promptSlug}`);
+          return response.json();
+        })
+        .then(cardData => {
+          if (cardData.success) {
+            statusBadge.innerHTML = '<span class="bg-green-500 text-white px-2 py-1 border border-green-700 flicker text-xs">OK</span>';
+            audioStatus.textContent = 'READY';
+            
+            // Load Strudel embed
+            replContainer.innerHTML = `
+              <div class="absolute inset-0 pointer-events-none">
+                <div class="scanlines"></div>
+              </div>
+              <strudel-repl 
+                code="${cardData.code.replace(/"/g, '&quot;').replace(/`/g, '\\`')}"
+                autoplay>
+              </strudel-repl>
+            `;
+            
+            // Set code content and file size
+            codeElement.textContent = cardData.code;
+            fileSize.textContent = Math.ceil(cardData.code.length / 1024) + 'KB';
+          } else {
+            statusBadge.innerHTML = '<span class="bg-red-500 text-white px-2 py-1 border border-red-700 blink text-xs">ERR</span>';
+            audioStatus.textContent = 'FAIL';
+            
+            replContainer.innerHTML = `
+              <div class="absolute inset-0 pointer-events-none">
+                <div class="scanlines"></div>
+              </div>
+              <div class="flex items-center justify-center h-full text-red-400 font-mono">
+                <div class="text-center border border-red-500 bg-red-900/20 p-3">
+                  <div class="text-sm mb-1 blink">ERROR</div>
+                  <div class="text-xs">NEURAL_FAULT</div>
+                </div>
+              </div>
+            `;
+            
+            codeElement.textContent = cardData.rawResponse || 'NO_RESPONSE_DATA.TXT';
+            fileSize.textContent = '0KB';
+          }
+        }).catch(e => {
+          statusBadge.innerHTML = '<span class="bg-yellow-500 text-black px-2 py-1 border border-yellow-700 blink text-xs">WARN</span>';
+          audioStatus.textContent = 'NET_ERR';
           
-          // Load Strudel embed
           replContainer.innerHTML = `
             <div class="absolute inset-0 pointer-events-none">
               <div class="scanlines"></div>
             </div>
-            <strudel-repl 
-              code="${cardData.code.replace(/"/g, '&quot;').replace(/`/g, '\\`')}"
-              autoplay>
-            </strudel-repl>
-          `;
-          
-          // Set code content and file size
-          codeElement.textContent = cardData.code;
-          fileSize.textContent = Math.ceil(cardData.code.length / 1024) + 'KB';
-        } else {
-          statusBadge.innerHTML = '<span class="bg-red-500 text-white px-2 py-1 border border-red-700 blink text-xs">ERR</span>';
-          audioStatus.textContent = 'FAIL';
-          
-          replContainer.innerHTML = `
-            <div class="absolute inset-0 pointer-events-none">
-              <div class="scanlines"></div>
-            </div>
-            <div class="flex items-center justify-center h-full text-red-400 font-mono">
-              <div class="text-center border border-red-500 bg-red-900/20 p-3">
-                <div class="text-sm mb-1 blink">ERROR</div>
-                <div class="text-xs">NEURAL_FAULT</div>
+            <div class="flex items-center justify-center h-full text-yellow-400 font-mono">
+              <div class="text-center border border-yellow-500 bg-yellow-900/20 p-3">
+                <div class="text-sm mb-1 blink">TIMEOUT</div>
+                <div class="text-xs">RETRY: 3/3</div>
               </div>
             </div>
           `;
-          
-          codeElement.textContent = cardData.rawResponse || 'NO_RESPONSE_DATA.TXT';
-          fileSize.textContent = '0KB';
-        }
-      }).catch(e => {
-        statusBadge.innerHTML = '<span class="bg-yellow-500 text-black px-2 py-1 border border-yellow-700 blink text-xs">WARN</span>';
-        audioStatus.textContent = 'NET_ERR';
-        
-        replContainer.innerHTML = `
-          <div class="absolute inset-0 pointer-events-none">
-            <div class="scanlines"></div>
-          </div>
-          <div class="flex items-center justify-center h-full text-yellow-400 font-mono">
-            <div class="text-center border border-yellow-500 bg-yellow-900/20 p-3">
-              <div class="text-sm mb-1 blink">TIMEOUT</div>
-              <div class="text-xs">RETRY: 3/3</div>
-            </div>
-          </div>
-        `;
-      });
+        });
       
       // Add window to workspace immediately
       workspace.appendChild(windowDiv);
