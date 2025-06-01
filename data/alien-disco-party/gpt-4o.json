@@ -1,0 +1,37 @@
+{
+  "model": "gpt-4o",
+  "router_id": "openai/gpt-4o",
+  "timestamp": "2025-06-01T22:11:16.500733+00:00Z",
+  "success": true,
+  "durationSec": 12.95,
+  "attempts": 3,
+  "code": "s(\"[bd hh sd oh]*4, hh*8\").bank(\"RolandTR808\")\n.distort(1.5).delay(\"0.3:0.15:0.4\").room(0.5)\n\n$:note(\"<c4 e4 g4 c5>\").s(\"sawtooth\").clip(1.5)\n.room(0.7).gain(\"<0.8 0.9 1>\").shape(0.3)\n.lpf(sine.range(500, 2000).slow(4)).lpq(3)\n\n$:note(\"<c3 e3 g3 c4>\").s(\"gm_lead_1_square\").clip(2)\n.vowel(\"<a e i o>\").superimpose(x => x.add(note(12)).bpf(1000))\n.phaser(\"<1 2 4>\").phaserdepth(0.5)\n\n$:s(\"white\").n(\"<16 8 4>\").noise(\"<0.3 0.5 0.2>\").gain(0.2)\n.lpf(8000).lpq(\"<0.1 2 0.5>\")",
+  "compileError": null,
+  "rawResponse": null,
+  "messages": [
+    {
+      "role": "user",
+      "content": "Create the soundtrack for an alien disco party"
+    },
+    {
+      "role": "assistant",
+      "content": "<CODE>\nsetcps(1)\nstack(\n  note(\"<c4 e4 g4 c5>\").s(\"super64\").clip(1.5)\n  .synth(\"sawtooth\").room(0.7).gain(\"<0.8 0.9 1>\").shape(0.3)\n  .lpf(sine.range(500, 2000).slow(4)).lpq(3),\n  \n  s(\"bd*4, sd*2, hh*8\").bank(\"RolandTR808\")\n  .cut(\"<0 1 1 0>\").distort(1.5)\n  .delay(\"0.3:0.15:0.4\").room(0.5),\n  \n  note(\"<c3 e3 g3 c4>\").s(\"gm_lead_1_square\").clip(2)\n  .vowel(\"<a e i o>\").superimpose(x => x.add(note(12)).bpf(1000))\n  .phaser(\"<1 2 4>\").phaserdepth(0.5),\n  \n  s(\"white\").n(\"<16 8 4>\").noise(\"<0.3 0.5 0.2>\").gain(0.2)\n  .lpf(8000).lpq(\"<0.1 2 0.5>\")\n)\n</CODE>"
+    },
+    {
+      "role": "user",
+      "content": "The Strudel code above failed to compile with this error:\ncannot use window: not in browser?\nsetcps is not defined\n\nPlease correct the code and return *only* a working Strudel snippet inside a <CODE>...</CODE> tag or fenced ``` block."
+    },
+    {
+      "role": "assistant",
+      "content": "<CODE>\ns(\"[bd hh sd oh]*4, hh*8\").bank(\"RolandTR808\")\n.distort(1.5).delay(\"0.3:0.15:0.4\").room(0.5)\n\n$:note(\"<c4 e4 g4 c5>\").s(\"super64\").clip(1.5)\n.synth(\"sawtooth\").room(0.7).gain(\"<0.8 0.9 1>\").shape(0.3)\n.lpf(sine.range(500, 2000).slow(4)).lpq(3)\n\n$:note(\"<c3 e3 g3 c4>\").s(\"gm_lead_1_square\").clip(2)\n.vowel(\"<a e i o>\").superimpose(x => x.add(note(12)).bpf(1000))\n.phaser(\"<1 2 4>\").phaserdepth(0.5)\n\n$:s(\"white\").n(\"<16 8 4>\").noise(\"<0.3 0.5 0.2>\").gain(0.2)\n.lpf(8000).lpq(\"<0.1 2 0.5>\")\n</CODE>"
+    },
+    {
+      "role": "user",
+      "content": "The Strudel code above failed to compile with this error:\ncannot use window: not in browser?\nnote(...).s(...).clip(...).synth is not a function\n\nPlease correct the code and return *only* a working Strudel snippet inside a <CODE>...</CODE> tag or fenced ``` block."
+    },
+    {
+      "role": "assistant",
+      "content": "<CODE>\ns(\"[bd hh sd oh]*4, hh*8\").bank(\"RolandTR808\")\n.distort(1.5).delay(\"0.3:0.15:0.4\").room(0.5)\n\n$:note(\"<c4 e4 g4 c5>\").s(\"sawtooth\").clip(1.5)\n.room(0.7).gain(\"<0.8 0.9 1>\").shape(0.3)\n.lpf(sine.range(500, 2000).slow(4)).lpq(3)\n\n$:note(\"<c3 e3 g3 c4>\").s(\"gm_lead_1_square\").clip(2)\n.vowel(\"<a e i o>\").superimpose(x => x.add(note(12)).bpf(1000))\n.phaser(\"<1 2 4>\").phaserdepth(0.5)\n\n$:s(\"white\").n(\"<16 8 4>\").noise(\"<0.3 0.5 0.2>\").gain(0.2)\n.lpf(8000).lpq(\"<0.1 2 0.5>\")\n</CODE>"
+    }
+  ]
+}

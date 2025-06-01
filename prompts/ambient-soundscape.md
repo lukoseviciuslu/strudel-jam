@@ -1,0 +1,1 @@
+Generate a peaceful ambient soundscape. Layer different frequencies and evolve over time.

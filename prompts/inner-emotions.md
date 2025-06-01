@@ -1,0 +1,1 @@
+Write a creative song that represents your inner emotions. Express your creativity in Strudel

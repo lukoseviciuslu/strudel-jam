@@ -1,0 +1,37 @@
+{
+  "model": "gpt-4o",
+  "router_id": "openai/gpt-4o",
+  "timestamp": "2025-06-01T22:33:01.658921+00:00Z",
+  "success": true,
+  "durationSec": 11.37,
+  "attempts": 3,
+  "code": "s(\"bd*4, sd*2, hh*8\").bank(\"RolandTR808\").distort(\"<2 3>\").gain(2)\nn(\"<0 1 2 3>\").s(\"gm_synth_bass_1\").clip(2).lpf(500)\ns(\"fx:0 fx:1 fx:2 fx:3\").chop(4).fit().gain(1.5)",
+  "compileError": null,
+  "rawResponse": null,
+  "messages": [
+    {
+      "role": "user",
+      "content": "A punchy 2010s trap beat with hard-hitting drums, drops and samples"
+    },
+    {
+      "role": "assistant",
+      "content": "<CODE>\nsetcps(0.9)\n$:s(\"bd*4, sd*2, hh*8\").bank(\"RolandTR808\").distort(3).gain(1.5)\n$:n(\"<0 1~ 2 3>\").s(\"stab\").clip(2).rev().gain(1.2)\n$:s(\"fx\").n(\"0 1 2 3\").clip(4).fadeout(0.8).gain(2).delay(.3:.2)\n</CODE>"
+    },
+    {
+      "role": "user",
+      "content": "The Strudel code above failed to compile with this error:\ncannot use window: not in browser?\nmissing ) after argument list\n\nPlease correct the code and return *only* a working Strudel snippet inside a <CODE>...</CODE> tag or fenced ``` block."
+    },
+    {
+      "role": "assistant",
+      "content": "```strudel\nsetcps(0.9)\n$:s(\"bd*4, sd*2, hh*8\").bank(\"RolandTR808\").distort(\"<2 3>\").gain(2)\n$:n(\"<0 1 2 3>\").s(\"gm_synth_bass_1\").clip(2).lpf(500)\n$:s(\"fx:0 fx:1 fx:2 fx:3\").chop(4).fit().gain(1.5)\n```"
+    },
+    {
+      "role": "user",
+      "content": "The Strudel code above failed to compile with this error:\ncannot use window: not in browser?\nsetcps is not defined\n\nPlease correct the code and return *only* a working Strudel snippet inside a <CODE>...</CODE> tag or fenced ``` block."
+    },
+    {
+      "role": "assistant",
+      "content": "```strudel\ns(\"bd*4, sd*2, hh*8\").bank(\"RolandTR808\").distort(\"<2 3>\").gain(2)\nn(\"<0 1 2 3>\").s(\"gm_synth_bass_1\").clip(2).lpf(500)\ns(\"fx:0 fx:1 fx:2 fx:3\").chop(4).fit().gain(1.5)\n```"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "model": "claude-sonnet-4",
+  "router_id": "anthropic/claude-sonnet-4",
+  "timestamp": "2025-06-01T22:10:54.792682+00:00Z",
+  "success": true,
+  "durationSec": 10.19,
+  "attempts": 3,
+  "code": "note(\"c4 e4 g4 c5 e5 g5\")\n.scale(\"C:major\")\n.s(\"sine\")\n.add(note(\"0,4,7\"))\n.lpf(sine.range(2000,4000).slow(2))\n.room(.3)\n.attack(.01)\n.release(.5)\n.gain(sine.range(.6,.9).slow(3))\n.pan(sine.slow(4))\n.delay(.125)",
+  "compileError": null,
+  "rawResponse": null,
+  "messages": [
+    {
+      "role": "user",
+      "content": "What does the color yellow sound like?"
+    },
+    {
+      "role": "assistant",
+      "content": "Yellow sounds bright, warm, and cheerful to me - like a sunny melody with sparkling high frequencies and gentle warmth. Here's my interpretation:\n\n<CODE>\nnote(\"c4 e4 g4 c5 e5 g5\")\n.scale(\"C:major\")\n.s(\"sine\")\n.add(note(\"0,4,7\"))\n.lpf(sine.range(2000,4000).slow(2))\n.reverb(.3)\n.attack(.01)\n.release(.5)\n.gain(sine.range(.6,.9).slow(3))\n.pan(sine.slow(4))\n.delay(.125)\n.color(\"yellow\")\n._scope()\n</CODE>\n\nThis captures yellow's brightness with major chords in a high register, the sparkle with filtered sine waves that shimmer between 2-4kHz, and the warm glow with gentle reverb and a floating pan movement."
+    },
+    {
+      "role": "user",
+      "content": "The Strudel code above failed to compile with this error:\ncannot use window: not in browser?\nnote(...).scale(...).s(...).add(...).lpf(...).reverb is not a function\n\nPlease correct the code and return *only* a working Strudel snippet inside a <CODE>...</CODE> tag or fenced ``` block."
+    },
+    {
+      "role": "assistant",
+      "content": "<CODE>\nnote(\"c4 e4 g4 c5 e5 g5\")\n.scale(\"C:major\")\n.s(\"sine\")\n.add(note(\"0,4,7\"))\n.lpf(sine.range(2000,4000).slow(2))\n.room(.3)\n.attack(.01)\n.release(.5)\n.gain(sine.range(.6,.9).slow(3))\n.pan(sine.slow(4))\n.delay(.125)\n.color(\"yellow\")\n._scope()\n</CODE>"
+    },
+    {
+      "role": "user",
+      "content": "The Strudel code above failed to compile with this error:\ncannot use window: not in browser?\nnote(...).scale(...).s(...).add(...).lpf(...).room(...).attack(...).release(...).gain(...).pan(...).delay(...).color(...)._scope is not a function\n\nPlease correct the code and return *only* a working Strudel snippet inside a <CODE>...</CODE> tag or fenced ``` block."
+    },
+    {
+      "role": "assistant",
+      "content": "<CODE>\nnote(\"c4 e4 g4 c5 e5 g5\")\n.scale(\"C:major\")\n.s(\"sine\")\n.add(note(\"0,4,7\"))\n.lpf(sine.range(2000,4000).slow(2))\n.room(.3)\n.attack(.01)\n.release(.5)\n.gain(sine.range(.6,.9).slow(3))\n.pan(sine.slow(4))\n.delay(.125)\n</CODE>"
+    }
+  ]
+}
