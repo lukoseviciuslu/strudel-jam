@@ -282,9 +282,9 @@ export async function renderPrompt() {
       });
       
       // Fetch model data
-      fetch(`${basePath}/data/${entry.promptSlug}/${m.card}`)
+      fetch(`${basePath}/data/${m.card}`)
         .then(response => {
-          if (!response.ok) throw new Error(`HTTP error! status: ${response.status} for ${m.card} under ${entry.promptSlug}`);
+          if (!response.ok) throw new Error(`HTTP error! status: ${response.status} for ${m.card}`);
           return response.json();
         })
         .then(cardData => {
