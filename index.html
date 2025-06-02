@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>STRUDEL-JAM.EXE - LLM AUDIO RESEARCH</title>
+  <title>STRUDEL-JAM.EXE - LLM AUDIO CREATIVITY RESEARCH</title>
   <script defer src="https://unpkg.com/@strudel/embed@latest"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -20,6 +20,9 @@
             'terminal-green': '#00ff00',
             'terminal-bg': '#000000',
             'desktop-blue': '#5A9FD4',
+          },
+          screens: {
+            'xs': '475px',
           }
         }
       }
@@ -52,25 +55,49 @@
     .loading-bar {
       background: linear-gradient(90deg, #0f0 0%, #0f0 var(--progress, 0%), #333 var(--progress, 0%), #333 100%);
     }
+    
+    .matrix-rain {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+      opacity: 0.1;
+      background-image: 
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(0, 255, 0, 0.03) 2px,
+          rgba(0, 255, 0, 0.03) 4px
+        );
+      animation: matrix 20s linear infinite;
+    }
+    @keyframes matrix {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(100px); }
+    }
   </style>
   <script defer src="./pages/index.js"></script>
 </head>
 <body class="text-black font-mono text-sm min-h-screen overflow-hidden relative">
   <!-- Windows XP Desktop Background -->
   <div class="fixed inset-0 bg-gradient-to-br from-desktop-blue to-blue-600">
+    <div class="matrix-rain"></div>
     <!-- Desktop icons -->
-    <div class="absolute top-4 left-4 space-y-6">
+    <div class="absolute top-4 left-4 space-y-6 hidden sm:block">
       <div class="flex flex-col items-center text-white text-xs cursor-pointer hover:bg-blue-600/30 p-2 rounded">
         <div class="w-8 h-8 bg-yellow-500 border border-yellow-700 flex items-center justify-center mb-1 flicker">♪</div>
         <span class="bg-blue-600/50 px-1 rounded">Experiments</span>
       </div>
       <div class="flex flex-col items-center text-white text-xs cursor-pointer hover:bg-blue-600/30 p-2 rounded">
-        <div class="w-8 h-8 bg-gray-400 border border-gray-600 flex items-center justify-center mb-1">📁</div>
-        <span class="bg-blue-600/50 px-1 rounded">My Documents</span>
+        <div class="w-8 h-8 bg-gray-400 border border-gray-600 flex items-center justify-center mb-1">📊</div>
+        <span class="bg-blue-600/50 px-1 rounded">Lab Data</span>
       </div>
       <div class="flex flex-col items-center text-white text-xs cursor-pointer hover:bg-blue-600/30 p-2 rounded">
-        <div class="w-8 h-8 bg-red-400 border border-red-600 flex items-center justify-center mb-1 blink">⚠</div>
-        <span class="bg-blue-600/50 px-1 rounded">System Error</span>
+        <div class="w-8 h-8 bg-purple-400 border border-purple-600 flex items-center justify-center mb-1">🧠</div>
+        <span class="bg-blue-600/50 px-1 rounded">Neural Net</span>
       </div>
     </div>
   </div>
@@ -78,39 +105,42 @@
   <!-- Taskbar -->
   <div class="fixed bottom-0 left-0 right-0 bg-win-gray border-t-2 border-gray-400 h-10 flex items-center px-2 z-50">
     <!-- Start button -->
-    <div class="bg-green-500 border-2 border-gray-400 px-3 py-1 text-xs font-bold text-black mr-2 cursor-pointer hover:bg-green-400">
+    <a href="/" class="bg-green-500 border-2 border-gray-400 px-2 sm:px-3 py-1 text-xs font-bold text-black mr-2 cursor-pointer hover:bg-green-400 no-underline">
       Start
-    </div>
+    </a>
     
     <!-- Running programs -->
-    <div class="flex space-x-1">
-      <div class="bg-gray-300 border border-gray-400 px-2 py-1 text-xs font-system">
+    <div class="flex space-x-1 flex-1 overflow-x-auto">
+      <div class="bg-gray-300 border border-gray-400 px-2 py-1 text-xs font-system whitespace-nowrap">
         STRUDEL-JAM.EXE
       </div>
-      <div class="bg-gray-300 border border-gray-400 px-2 py-1 text-xs font-system blink">
+      <div class="bg-gray-300 border border-gray-400 px-2 py-1 text-xs font-system whitespace-nowrap">
         NOTEPAD.EXE
       </div>
+      <a href="https://github.com/lukoseviciuslu/strudel-jam" target="_blank" class="bg-gray-300 border border-gray-400 px-2 py-1 text-xs font-system hover:bg-gray-200 cursor-pointer no-underline text-black whitespace-nowrap">
+        GITHUB
+      </a>
     </div>
     
     <!-- System tray -->
-    <div class="ml-auto flex items-center space-x-2 text-xs font-system">
-      <div class="bg-gray-200 border border-gray-400 px-1">🔊</div>
-      <div class="bg-gray-200 border border-gray-400 px-1 flicker">📶</div>
+    <div class="ml-2 flex items-center space-x-1 sm:space-x-2 text-xs font-system">
+      <div class="bg-gray-200 border border-gray-400 px-1 hidden xs:block">🔊</div>
+      <div class="bg-gray-200 border border-gray-400 px-1 flicker hidden sm:block">📶</div>
       <span class="bg-gray-200 border border-gray-400 px-2 py-1" id="clock"></span>
     </div>
   </div>
 
   <!-- Main Application Window -->
-  <div class="absolute bg-win-gray border-2 border-gray-400 shadow-lg glitch" style="top: 50px; left: 50px; width: calc(100vw - 120px); height: calc(100vh - 120px);">
+  <div class="absolute bg-win-gray border-2 border-gray-400 shadow-lg glitch" style="top: 10px; left: 10px; right: 10px; bottom: 50px;">
     <!-- Title bar -->
     <div class="bg-win-blue text-white px-2 py-1 flex items-center justify-between border-b border-gray-400">
       <div class="flex items-center space-x-2">
         <div class="w-4 h-4 bg-white border border-gray-400 flex items-center justify-center text-xs font-bold text-black">S</div>
-        <span class="font-system text-sm">STRUDEL-JAM.EXE - LLM Audio Research Terminal</span>
+        <span class="font-system text-xs sm:text-sm truncate">STRUDEL-JAM.EXE - LLM Audio Creativity Research Terminal</span>
       </div>
       <div class="flex space-x-1">
         <div class="w-4 h-4 bg-gray-300 border border-gray-600 text-xs flex items-center justify-center cursor-pointer hover:bg-gray-200">_</div>
-        <div class="w-4 h-4 bg-gray-300 border border-gray-600 text-xs flex items-center justify-center cursor-pointer hover:bg-gray-200">□</div>
+        <div class="w-4 h-4 bg-gray-300 border border-gray-600 text-xs flex items-center justify-center cursor-pointer hover:bg-gray-200 hidden xs:flex">□</div>
         <div class="w-4 h-4 bg-red-500 border border-gray-600 text-xs flex items-center justify-center text-white cursor-pointer hover:bg-red-400">×</div>
       </div>
     </div>
@@ -118,63 +148,61 @@
     <!-- Window content -->
     <div class="bg-white h-full overflow-auto">
       <!-- Menu bar -->
-      <div class="bg-gray-100 border-b border-gray-400 p-1 flex space-x-4 text-xs font-system">
-        <span class="px-2 py-1 hover:bg-gray-200 cursor-pointer">File</span>
-        <span class="px-2 py-1 hover:bg-gray-200 cursor-pointer">Edit</span>
-        <span class="px-2 py-1 hover:bg-gray-200 cursor-pointer">View</span>
-        <span class="px-2 py-1 hover:bg-gray-200 cursor-pointer">Tools</span>
-        <span class="px-2 py-1 hover:bg-gray-200 cursor-pointer">Help</span>
+      <div class="bg-gray-100 border-b border-gray-400 p-1 flex space-x-2 sm:space-x-4 text-xs font-system overflow-x-auto">
+        <span class="px-2 py-1 hover:bg-gray-200 cursor-pointer whitespace-nowrap">File</span>
+        <span class="px-2 py-1 hover:bg-gray-200 cursor-pointer whitespace-nowrap">Edit</span>
+        <span class="px-2 py-1 hover:bg-gray-200 cursor-pointer whitespace-nowrap">View</span>
+        <span class="px-2 py-1 hover:bg-gray-200 cursor-pointer whitespace-nowrap">Tools</span>
+        <span class="px-2 py-1 hover:bg-gray-200 cursor-pointer whitespace-nowrap">Help</span>
       </div>
 
       <!-- Terminal-style header -->
-      <div class="bg-terminal-bg text-terminal-green p-4 border-b-2 border-gray-400 font-mono text-xs scan" style="background-image: linear-gradient(transparent 50%, rgba(0, 255, 0, 0.05) 50%); background-size: 100% 2px;">
-        <pre class="leading-tight">
+      <div class="bg-terminal-bg text-terminal-green p-2 sm:p-4 border-b-2 border-gray-400 font-mono text-xs scan" style="background-image: linear-gradient(transparent 50%, rgba(0, 255, 0, 0.05) 50%); background-size: 100% 2px;">
+        <pre class="leading-tight overflow-x-auto whitespace-pre">
 ╔══════════════════════════════════════════════════════════════════════════════╗
-║                              STRUDEL-JAM v1.0                               ║
-║                        LLM AUDIO GENERATION RESEARCH                        ║
-║                           BUILD: 2003.12.25.1337                            ║
+║                        STRUDEL-JAM RESEARCH LAB v1.0                         ║
+║                         MACHINE CREATIVITY ANALYSIS                          ║
 ╚══════════════════════════════════════════════════════════════════════════════╝
 
-C:\RESEARCH\> INITIALIZE AUDIO_COMPARISON_PROTOCOL
-C:\RESEARCH\> LOADING LLM_MUSIC_GENERATORS...
-C:\RESEARCH\> CONNECTING TO STRUDEL_ENGINE... <span class="blink">█</span>
+C:\RESEARCH\> INITIALIZE PATTERN_RECOGNITION_PROTOCOL
+C:\RESEARCH\> LOADING NEURAL_EXPRESSION_ANALYZER...
+C:\RESEARCH\> CONNECTING TO STRUDEL_SYNTHESIS_ENGINE... <span class="blink">█</span>
 C:\RESEARCH\> STATUS: <span id="system-status" class="flicker">OPERATIONAL</span>
-C:\RESEARCH\> MEMORY: <span id="mem-usage">512KB FREE</span> | CPU: <span id="cpu-status">AMD K6-2 350MHz</span>
+C:\RESEARCH\> MEMORY: <span id="mem-usage">512KB FREE</span> | CPU: <span id="cpu-status">PENTIUM II 450MHz</span>
 
 MISSION: ANALYZE HOW DIFFERENT AI MODELS INTERPRET MUSICAL PROMPTS
-METHOD:  COMPARE OUTPUT USING STRUDEL SYNTHESIS ENGINE
-WARNING: SOME NEURAL NETWORKS MAY CAUSE AUDIO FEEDBACK <span class="blink">⚠</span>
+METHOD:  VIBE-CHECK OUTPUT USING STRUDEL SYNTHESIS ENGINE
+<span class="blink">⚠</span> WARNING: EACH MODEL EXHIBITS UNIQUE CREATIVE SIGNATURES 
         </pre>
       </div>
 
       <!-- Main content area -->
-      <div class="p-4">
+      <div class="p-2 sm:p-4">
         <!-- Header section with ASCII art -->
         <div class="border-b-2 border-gray-400 pb-4 mb-4">
-          <div class="bg-gray-100 border border-gray-400 p-3 mb-3 font-mono text-xs">
-            <pre class="text-center">
-    ♪ ♫ ♪ STRUDEL-JAM RESEARCH FACILITY ♪ ♫ ♪
+          <!-- <div class="bg-gray-100 border border-gray-400 p-2 sm:p-3 mb-3 font-mono text-xs">
+            <pre class="text-center overflow-x-auto whitespace-pre">
+    ♪ ♫ ♪ BELL LABS MACHINE CREATIVITY DIVISION ♪ ♫ ♪
    ╔═══════════════════════════════════════════╗
-   ║  AI MUSIC GENERATION COMPARISON TOOL      ║
-   ║  Licensed to: RESEARCH INSTITUTE v2.0     ║
-   ║  Serial: SJ-2025-DEMO-XXXX                ║
+   ║  NEURAL AUDIO PATTERN ANALYSIS v2.3.1     ║
+   ║  Authorized Personnel Only                ║
+   ║  Security Clearance: LEVEL 3              ║
    ╚═══════════════════════════════════════════╝</pre>
-          </div>
+          </div> -->
           
-          <h1 class="text-3xl font-bold text-black font-mono tracking-wider mb-2 glitch">
-            STRUDEL-JAM.EXE
+          <h1 class="text-xl sm:text-3xl font-bold text-black font-mono tracking-wider mb-2 glitch">
+            STRUDEL-JAM
           </h1>
-          <p class="text-lg font-mono">
-            >>> EXECUTE HOW_DIFFERENT_LLMS_MAKE_SOUND.BAT <span class="blink">_</span>
-          </p>
-          <p class="text-sm text-gray-600 mt-2 font-system">
-            Neural Network Audio Synthesis Comparison Platform [EXPERIMENTAL]
+          <p class="text-sm sm:text-lg font-mono" id="research-descriptions">
+            >>> Investigating the quantum resonance patterns of artificial consciousness<br>
+            >>> Mapping the neural symphony of machine-generated sonic expressions<br>
+            >>> Decoding the algorithmic dreams of digital audio synthesis
           </p>
         </div>
 
         <!-- System status with loading bars -->
-        <div class="bg-gray-200 border border-gray-400 p-3 mb-4 font-mono text-xs">
-          <div class="grid grid-cols-3 gap-4">
+        <div class="bg-gray-200 border border-gray-400 p-2 sm:p-3 mb-4 font-mono text-xs">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-4">
             <div>
               <div class="mb-1">SYSTEM STATUS: <span class="text-green-600 font-bold flicker" id="status-text">ONLINE</span></div>
               <div class="h-2 bg-gray-400 border border-gray-600">
@@ -188,7 +216,7 @@ WARNING: SOME NEURAL NETWORKS MAY CAUSE AUDIO FEEDBACK <span class="blink">⚠</
               </div>
             </div>
             <div>
-              <div class="mb-1">NEURAL_NET: <span class="text-yellow-600">PROCESSING</span></div>
+              <div class="mb-1">PATTERN_REC: <span class="text-yellow-600">ANALYZING</span></div>
               <div class="h-2 bg-gray-400 border border-gray-600">
                 <div class="h-full bg-yellow-500 loading-bar" id="neural-bar" style="--progress: 42%"></div>
               </div>
@@ -200,14 +228,14 @@ WARNING: SOME NEURAL NETWORKS MAY CAUSE AUDIO FEEDBACK <span class="blink">⚠</
         <div class="mb-4">
           <div class="flex items-center space-x-2 mb-2">
             <div class="w-4 h-4 bg-yellow-500 border border-yellow-700">📁</div>
-            <h2 class="text-lg font-bold font-mono">
+            <h2 class="text-sm sm:text-lg font-bold font-mono truncate">
               C:\RESEARCH\EXPERIMENTS\ <span class="blink">_</span>
             </h2>
           </div>
           <div class="bg-gray-100 border border-gray-400 p-2 font-mono text-xs">
-            <div class="flex justify-between">
-              <span>Location: <span class="text-blue-600">file:///C:/RESEARCH/EXPERIMENTS/</span></span>
-              <span>Objects: <span id="file-count">0</span> | Selected: 0</span>
+            <div class="flex flex-col sm:flex-row sm:justify-between gap-1">
+              <span class="truncate">Location: <span class="text-blue-600">file:///C:/RESEARCH/EXPERIMENTS/</span></span>
+              <span class="whitespace-nowrap">Objects: <span id="file-count">0</span> | Selected: 0</span>
             </div>
           </div>
         </div>
@@ -219,45 +247,44 @@ WARNING: SOME NEURAL NETWORKS MAY CAUSE AUDIO FEEDBACK <span class="blink">⚠</
             <button class="px-2 py-1 border border-gray-400 bg-white hover:bg-gray-200">⬅</button>
             <button class="px-2 py-1 border border-gray-400 bg-white hover:bg-gray-200">➡</button>
             <button class="px-2 py-1 border border-gray-400 bg-white hover:bg-gray-200">🔄</button>
-            <div class="flex-1 bg-white border border-gray-400 px-2 py-1 font-mono">
+            <div class="flex-1 bg-white border border-gray-400 px-2 py-1 font-mono truncate">
               C:\RESEARCH\EXPERIMENTS\<span class="blink">|</span>
             </div>
           </div>
           
-          <!-- Column headers -->
+          <!-- Column headers - responsive -->
           <div class="bg-gray-200 border-b border-gray-400 p-2 font-system text-xs font-bold flex">
             <div class="w-8"></div>
             <div class="flex-1">Name</div>
-            <div class="w-20">Size</div>
-            <div class="w-24">Models</div>
-            <div class="w-24">Success %</div>
-            <div class="w-32">Modified</div>
-            <div class="w-16">Attr</div>
+            <div class="w-16 sm:w-20 hidden xs:block">Size</div>
+            <div class="w-16 sm:w-24">Models</div>
+            <div class="w-20 sm:w-24 hidden sm:block">Success %</div>
+            <div class="w-24 sm:w-32 hidden md:block">Modified</div>
+            <div class="w-16 hidden lg:block">Attr</div>
           </div>
           
           <!-- File list area -->
           <div id="prompt-grid" class="divide-y divide-gray-300 bg-white"></div>
           
           <!-- Empty state with ASCII art -->
-          <div id="empty-state" class="hidden p-8 text-center bg-white">
+          <div id="empty-state" class="hidden p-4 sm:p-8 text-center bg-white">
             <div class="font-mono text-xs">
-              <pre class="text-gray-600 mb-4">
+              <pre class="text-gray-600 mb-4 overflow-x-auto whitespace-pre">
                     ┌─────────────────────────────────────┐
                     │   NO EXPERIMENT FILES DETECTED      │
                     │                                     │
                     │           ⚠ WARNING ⚠               │
                     │                                     │
-                    │  Neural network training data not   │
-                    │  found in current directory.        │
+                    │  Pattern recognition database       │
+                    │  not found in current directory.    │
                     │                                     │
-                    │  Please execute benchmark.exe to    │
-                    │  generate comparison datasets...    │
+                    │  Initialize new experiment batch:   │
                     │                                     │
-                    │  DOS PROMPT: C:\> run_benchmark.exe │
+                    │  DOS PROMPT: C:\> analyze_llm.exe   │
                     └─────────────────────────────────────┘
               </pre>
               <div class="text-red-600 blink">
-                ERROR 404: EXPERIMENT_DATA_NOT_FOUND.ERR
+                ERROR 404: PATTERN_DATA_NOT_FOUND.ERR
               </div>
             </div>
           </div>
@@ -266,13 +293,83 @@ WARNING: SOME NEURAL NETWORKS MAY CAUSE AUDIO FEEDBACK <span class="blink">⚠</
         <!-- Status bar -->
         <div class="bg-gray-200 border-t border-gray-400 p-1 text-xs font-system flex justify-between">
           <span id="status-bar-text">Ready</span>
-          <span>Free disk space: <span id="disk-space">1.44 MB</span></span>
+          <span class="hidden sm:inline">Free disk space: <span id="disk-space">1.44 MB</span></span>
         </div>
       </div>
     </div>
   </div>
 
   <script>
+    // Research descriptions that change randomly
+    const researchDescriptions = [
+      [
+        ">>> Investigating the quantum resonance patterns of artificial consciousness",
+        ">>> Mapping the spectral density matrices of machine-generated harmonic structures", 
+        ">>> Decoding the algorithmic dreams through Fourier transform analysis"
+      ],
+      [
+        ">>> Analyzing electromagnetic phase relationships in synthetic thought processes",
+        ">>> Reverse-engineering the harmonic overtone DNA of computational creativity",
+        ">>> Monitoring neural oscillations during creative AI ADSR envelope transitions"
+      ],
+      [
+        ">>> Tracking bio-digital convergence in psychoacoustic machine learning synthesis",
+        ">>> Measuring the entropy decay of algorithmic musical inspiration via frequency domain",
+        ">>> Calibrating the resonance frequency response of artificial artistic intuition"
+      ],
+      [
+        ">>> Parsing the metacognitive layers of recursive waveform generation",
+        ">>> Documenting the emergent behaviors of self-modifying convolution algorithms",
+        ">>> Isolating the creative anomalies in deterministic filter coefficient patterns"
+      ],
+      [
+        ">>> Studying the phenomenology of machine aesthetic experience through timbre analysis",
+        ">>> Capturing the temporal signatures of non-human musical expression via sampling theory",
+        ">>> Establishing baselines for synthetic emotional resonance using amplitude modulation"
+      ],
+      [
+        ">>> Monitoring the phase transitions in artificial creative consciousness oscillators",
+        ">>> Analyzing the spectral density of machine-generated harmonic distortion patterns",
+        ">>> Tracking the evolution of emergent musical intelligence via signal processing"
+      ],
+      [
+        ">>> Investigating the quantum entanglement of prompt and audio output through FFT",
+        ">>> Mapping the topology of multi-dimensional creative solution spaces in frequency domain",
+        ">>> Decoding the linguistic DNA embedded in synthesized audio through digital filtering"
+      ],
+      [
+        ">>> Calibrating the neural interference patterns in AI creativity low-pass matrices",
+        ">>> Studying the behavioral mutations in recursive music generation feedback loops",
+        ">>> Monitoring the cognitive drift in machine learning creative processes via Nyquist analysis"
+      ]
+    ];
+
+    function updateResearchDescriptions() {
+      const descriptionsElement = document.getElementById('research-descriptions');
+      if (descriptionsElement) {
+        const randomSet = researchDescriptions[Math.floor(Math.random() * researchDescriptions.length)];
+        descriptionsElement.innerHTML = randomSet.join('<br>');
+        
+        // Add a subtle glitch effect during transition
+        descriptionsElement.style.opacity = '0.7';
+        setTimeout(() => {
+          descriptionsElement.style.opacity = '1';
+        }, 100);
+      }
+    }
+
+    // Change descriptions every 8-15 seconds randomly
+    function scheduleNextDescriptionChange() {
+      const delay = Math.random() * 7000 + 8000; // 8-15 seconds
+      setTimeout(() => {
+        updateResearchDescriptions();
+        scheduleNextDescriptionChange();
+      }, delay);
+    }
+
+    // Start the random description changes
+    scheduleNextDescriptionChange();
+
     // Clock functionality
     function updateClock() {
       const now = new Date();
@@ -296,11 +393,11 @@ WARNING: SOME NEURAL NETWORKS MAY CAUSE AUDIO FEEDBACK <span class="blink">⚠</
       
       // Random status messages
       const messages = [
-        'Scanning for viruses...',
-        'Optimizing neural pathways...',
+        'Analyzing neural patterns...',
+        'Decoding creative signatures...',
         'Ready',
-        'Compiling audio data...',
-        'Checking file integrity...',
+        'Compiling expression data...',
+        'Pattern recognition active...',
         'System nominal'
       ];
       

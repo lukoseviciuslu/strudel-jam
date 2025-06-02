@@ -73,39 +73,39 @@
       
       row.innerHTML = `
         <!-- File icon -->
-        <div class="w-8 flex items-center justify-center">
+        <div class="w-8 flex items-center justify-center flex-shrink-0">
           <div class="w-4 h-4 ${successRate === 100 ? 'bg-green-500' : successRate > 0 ? 'bg-yellow-500' : 'bg-red-500'} border border-gray-600 text-white text-xs flex items-center justify-center">
             ${successRate === 100 ? '♪' : successRate > 0 ? '⚠' : '✗'}
           </div>
         </div>
         
         <!-- File name with extension -->
-        <div class="flex-1 flex items-center space-x-1">
-          <span class="font-mono font-bold text-black">
+        <div class="flex-1 flex items-center space-x-1 min-w-0">
+          <span class="font-mono font-bold text-black truncate">
             ${prompt.title.replace(/\s+/g, '_').toUpperCase()}
           </span>
-          <span class="font-mono text-blue-600">.PROMPT</span>
+          <span class="font-mono text-blue-600 flex-shrink-0">.PROMPT</span>
         </div>
         
         <!-- File size -->
-        <div class="w-20 text-right font-mono">
+        <div class="w-16 sm:w-20 text-right font-mono hidden xs:block">
           ${fileSize}
         </div>
         
         <!-- Models count -->
-        <div class="w-24 text-center font-mono">
+        <div class="w-16 sm:w-24 text-center font-mono">
           ${prompt.models.length}
         </div>
         
         <!-- Success rate with status -->
-        <div class="w-24 text-center">
+        <div class="w-20 sm:w-24 text-center hidden sm:block">
           <span class="font-mono ${successRate === 100 ? 'text-green-600' : successRate > 0 ? 'text-yellow-600' : 'text-red-600'} font-bold">
             ${successRate}%
           </span>
         </div>
         
         <!-- Date in old format -->
-        <div class="w-32 text-center font-mono text-xs">
+        <div class="w-24 sm:w-32 text-center font-mono text-xs hidden md:block">
           ${new Date(prompt.dateRun).toLocaleDateString('en-US', {
             month: '2-digit',
             day: '2-digit', 
@@ -114,7 +114,7 @@
         </div>
         
         <!-- File attributes -->
-        <div class="w-16 text-center font-mono text-xs text-gray-600">
+        <div class="w-16 text-center font-mono text-xs text-gray-600 hidden lg:block">
           ${attributes}
         </div>
       `;
@@ -133,10 +133,10 @@
           
           // Add fake loading delay
           const statusBar = document.getElementById('status-bar-text');
-          statusBar.textContent = 'Loading experiment data...';
+          statusBar.textContent = 'Loading pattern analysis data...';
           
           setTimeout(() => {
-            statusBar.textContent = 'Launching neural network comparison tool...';
+            statusBar.textContent = 'Initializing neural comparison matrix...';
             setTimeout(() => {
               window.location.href = row.href;
             }, 500);
@@ -153,7 +153,7 @@
       row.addEventListener('contextmenu', (e) => {
         e.preventDefault();
         const statusBar = document.getElementById('status-bar-text');
-        statusBar.textContent = 'Right-click menu: Open, Properties, Delete (simulation)';
+        statusBar.textContent = 'Right-click menu: Analyze, Properties, Export (simulation)';
         setTimeout(() => {
           statusBar.textContent = 'Ready';
         }, 2000);
@@ -166,11 +166,11 @@
     setTimeout(() => {
       const statusBar = document.getElementById('status-bar-text');
       const messages = [
-        'Indexing neural network files...',
-        'Defragmenting audio database...',
-        'Checking system integrity...',
-        'Scanning for updates...',
-        'Optimizing memory allocation...',
+        'Indexing pattern database...',
+        'Analyzing creative signatures...',
+        'Checking neural coherence...',
+        'Scanning for anomalies...',
+        'Optimizing pattern recognition...',
         'Ready'
       ];
       
@@ -196,7 +196,7 @@
     // Show error in status bar
     const statusBar = document.getElementById('status-bar-text');
     if (statusBar) {
-      statusBar.textContent = 'Error: Failed to load experiment database';
+      statusBar.textContent = 'Error: Failed to load pattern database';
     }
   }
 })(); 

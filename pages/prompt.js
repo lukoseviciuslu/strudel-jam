@@ -9,7 +9,7 @@ export async function renderPrompt() {
     
     if (!entry) {
       document.getElementById('model-grid').innerHTML = 
-        '<div class="text-center bg-red-100 border-2 border-red-500 p-4 font-mono">ERROR: PROMPT_NOT_FOUND.DAT</div>';
+        '<div class="text-center bg-red-100 border-2 border-red-500 p-4 font-mono">ERROR: PATTERN_NOT_FOUND.DAT</div>';
       return;
     }
 
@@ -31,13 +31,20 @@ export async function renderPrompt() {
     
     // Calculate optimal window arrangement for any number of models
     const modelCount = entry.models.length;
-    const workspaceWidth = workspace.clientWidth || 1200; // fallback
-    const workspaceHeight = workspace.clientHeight || 600; // fallback
+    const isMobile = window.innerWidth < 640;
+    const workspaceWidth = workspace.clientWidth || (isMobile ? 350 : 1200);
+    const workspaceHeight = workspace.clientHeight || (isMobile ? 500 : 600);
     
-    // Determine window size based on number of models - ensure minimum width for Strudel controls
+    // Determine window size based on number of models and screen size
     let windowWidth, windowHeight, cols, rows;
     
-    if (modelCount <= 2) {
+    if (isMobile) {
+      // Mobile layout - single column, smaller windows
+      windowWidth = Math.min(340, workspaceWidth - 20);
+      windowHeight = 400;
+      cols = 1;
+      rows = modelCount;
+    } else if (modelCount <= 2) {
       // Large windows for very few models
       windowWidth = 750;
       windowHeight = 550;
@@ -56,22 +63,22 @@ export async function renderPrompt() {
       cols = 2;
       rows = Math.ceil(modelCount / cols);
     } else if (modelCount <= 9) {
-      // Smaller but still functional windows - minimum for strudel controls
+      // Smaller but still functional windows
       windowWidth = 660;
       windowHeight = 480;
       cols = 3;
       rows = Math.ceil(modelCount / cols);
     } else {
-      // Minimum size to ensure strudel controls are fully visible - never go below 630px width
+      // Minimum size to ensure strudel controls are fully visible
       windowWidth = 630;
       windowHeight = 460;
-      cols = Math.min(3, Math.ceil(Math.sqrt(modelCount * 0.75))); // Prefer fewer columns
+      cols = Math.min(3, Math.ceil(Math.sqrt(modelCount * 0.75)));
       rows = Math.ceil(modelCount / cols);
     }
     
-    // Calculate spacing - allow for scrolling if needed
-    const horizontalSpacing = Math.max(15, (workspaceWidth - (cols * windowWidth)) / (cols + 1));
-    const verticalSpacing = Math.max(15, Math.min(30, (workspaceHeight - (rows * windowHeight)) / (rows + 1)));
+    // Calculate spacing
+    const horizontalSpacing = isMobile ? 10 : Math.max(15, (workspaceWidth - (cols * windowWidth)) / (cols + 1));
+    const verticalSpacing = isMobile ? 10 : Math.max(15, Math.min(30, (workspaceHeight - (rows * windowHeight)) / (rows + 1)));
     
     // Generate positions in a grid
     const calculatePosition = (index) => {
@@ -81,9 +88,9 @@ export async function renderPrompt() {
       const x = horizontalSpacing + col * (windowWidth + horizontalSpacing);
       const y = verticalSpacing + row * (windowHeight + verticalSpacing);
       
-      // Add slight randomization to avoid perfect grid look
-      const jitterX = (Math.random() - 0.5) * 15;
-      const jitterY = (Math.random() - 0.5) * 15;
+      // Add slight randomization for desktop only
+      const jitterX = isMobile ? 0 : (Math.random() - 0.5) * 15;
+      const jitterY = isMobile ? 0 : (Math.random() - 0.5) * 15;
       
       return {
         x: Math.max(10, x + jitterX),
@@ -93,8 +100,8 @@ export async function renderPrompt() {
     
     // Auto-arrange button for manual reorganization
     const autoArrangeBtn = document.createElement('button');
-    autoArrangeBtn.className = 'absolute top-2 right-2 bg-gray-300 border-2 border-gray-500 px-3 py-1 text-xs font-mono hover:bg-gray-200 z-40';
-    autoArrangeBtn.textContent = '[AUTO-ARRANGE]';
+    autoArrangeBtn.className = 'absolute top-2 right-2 bg-gray-300 border-2 border-gray-500 px-2 sm:px-3 py-1 text-xs font-mono hover:bg-gray-200 z-40';
+    autoArrangeBtn.textContent = isMobile ? '[ARRANGE]' : '[AUTO-ARRANGE]';
     autoArrangeBtn.onclick = () => {
       const windows = workspace.querySelectorAll('.model-window');
       windows.forEach((win, idx) => {
@@ -109,7 +116,7 @@ export async function renderPrompt() {
     };
     workspace.appendChild(autoArrangeBtn);
     
-    // Ensure workspace can scroll if needed for many windows
+    // Ensure workspace can scroll if needed
     if (rows * (windowHeight + verticalSpacing) > workspaceHeight) {
       workspace.style.height = (rows * (windowHeight + verticalSpacing) + 50) + 'px';
       workspace.style.overflowY = 'auto';
@@ -130,19 +137,19 @@ export async function renderPrompt() {
       windowDiv.style.left = pos.x + 'px';
       windowDiv.style.top = pos.y + 'px';
       
-      // Calculate REPL height based on window size - ensure good proportion
-      const replHeight = Math.max(250, windowHeight - 180);
+      // Calculate REPL height based on window size
+      const replHeight = Math.max(isMobile ? 180 : 250, windowHeight - 180);
       
       windowDiv.innerHTML = `
         <!-- Window title bar -->
         <div class="model-title bg-gradient-to-r from-blue-500 to-blue-600 text-white px-2 py-1 flex items-center justify-between border-b border-gray-400 cursor-move">
-          <div class="flex items-center space-x-2">
-            <div class="w-4 h-4 bg-white border border-gray-400 flex items-center justify-center text-xs font-bold text-black">AI</div>
-            <span class="font-system text-sm truncate">${m.name.toUpperCase()}.EXE</span>
+          <div class="flex items-center space-x-2 min-w-0">
+            <div class="w-4 h-4 bg-white border border-gray-400 flex items-center justify-center text-xs font-bold text-black flex-shrink-0">AI</div>
+            <span class="font-system text-xs sm:text-sm truncate">${m.name.toUpperCase()}.EXE</span>
           </div>
-          <div class="flex space-x-1">
+          <div class="flex space-x-1 flex-shrink-0">
             <div class="w-4 h-4 bg-gray-300 border border-gray-600 text-xs flex items-center justify-center cursor-pointer hover:bg-gray-200">_</div>
-            <div class="w-4 h-4 bg-gray-300 border border-gray-600 text-xs flex items-center justify-center cursor-pointer hover:bg-gray-200">□</div>
+            <div class="w-4 h-4 bg-gray-300 border border-gray-600 text-xs flex items-center justify-center cursor-pointer hover:bg-gray-200 hidden xs:flex">□</div>
             <div class="w-4 h-4 bg-red-500 border border-gray-600 text-xs flex items-center justify-center text-white cursor-pointer hover:bg-red-400">×</div>
           </div>
         </div>
@@ -153,28 +160,31 @@ export async function renderPrompt() {
         <div class="resize-handle s"></div>
         
         <!-- Window content -->
-        <div class="bg-white p-3 h-full overflow-hidden flex flex-col">
-          <!-- Status bar with blinking cursor -->
-          <div class="bg-gray-200 border border-gray-400 p-2 text-xs font-mono mb-3 flex justify-between">
+        <div class="bg-white p-2 sm:p-3 h-full overflow-hidden flex flex-col">
+          <!-- Status bar with neural activity indicator -->
+          <div class="bg-gray-200 border border-gray-400 p-1 sm:p-2 text-xs font-mono mb-2 sm:mb-3 flex justify-between items-center">
             <span class="truncate">${m.name}</span>
-            <span class="status-badge flex-shrink-0"></span>
+            <div class="flex items-center space-x-2">
+              <span class="neural-activity text-green-600 text-xs">◉◉◉◉◉</span>
+              <span class="status-badge flex-shrink-0"></span>
+            </div>
           </div>
           
-          <!-- System messages -->
-          <div class="bg-black border border-gray-500 p-2 text-xs font-mono text-green-400 mb-3 h-14 overflow-hidden">
+          <!-- System messages with lab terminology -->
+          <div class="bg-black border border-gray-500 p-1 sm:p-2 text-xs font-mono text-green-400 mb-2 sm:mb-3 h-12 sm:h-14 overflow-hidden">
             <div class="system-messages">
-              <div class="truncate">INIT_AI_MODULE.SYS...</div>
-              <div class="truncate">LOAD_NETWORKS... <span class="blink">█</span></div>
+              <div class="truncate">INIT_NEURAL_MATRIX.SYS...</div>
+              <div class="truncate">PATTERN_RECOGNITION... <span class="blink">█</span></div>
             </div>
           </div>
           
           <!-- Audio section - flexible height -->
-          <div class="flex-1 flex flex-col mb-3">
-            <div class="bg-black border border-gray-500 p-2 text-xs font-mono text-green-400 mb-2 flex justify-between">
-              <span class="truncate">AUDIO_SYNTH.EXE</span>
-              <span class="audio-status">READY</span>
+          <div class="flex-1 flex flex-col mb-2 sm:mb-3">
+            <div class="bg-black border border-gray-500 p-1 sm:p-2 text-xs font-mono text-green-400 mb-1 sm:mb-2 flex justify-between">
+              <span class="truncate">AUDIO_SYNTHESIS.EXE</span>
+              <span class="audio-status text-xs">STANDBY</span>
             </div>
-            <div class="repl-container bg-black border-2 border-gray-500 flex-1 p-2 relative overflow-hidden" style="min-height: ${replHeight}px;">
+            <div class="repl-container bg-black border-2 border-gray-500 flex-1 p-1 sm:p-2 relative overflow-hidden" style="min-height: ${replHeight}px;">
               <!-- Old-school scanlines effect -->
               <div class="absolute inset-0 pointer-events-none">
                 <div class="scanlines"></div>
@@ -183,25 +193,25 @@ export async function renderPrompt() {
           </div>
           
           <!-- Controls -->
-          <div class="flex space-x-2 mb-3">
-            <button class="minimize-btn bg-gray-300 border border-gray-500 px-3 py-1 text-xs font-mono hover:bg-gray-200 flex-1">
+          <div class="flex space-x-1 sm:space-x-2 mb-2 sm:mb-3">
+            <button class="minimize-btn bg-gray-300 border border-gray-500 px-2 sm:px-3 py-1 text-xs font-mono hover:bg-gray-200 flex-1">
               [MIN]
             </button>
-            <button class="code-btn bg-gray-300 border border-gray-500 px-3 py-1 text-xs font-mono hover:bg-gray-200 flex-1">
+            <button class="code-btn bg-gray-300 border border-gray-500 px-2 sm:px-3 py-1 text-xs font-mono hover:bg-gray-200 flex-1">
               [CODE]
             </button>
-            <div class="text-xs font-mono text-gray-600 flex items-center px-2">
+            <div class="text-xs font-mono text-gray-600 flex items-center px-1 sm:px-2">
               CPU: <span class="cpu-usage text-green-600">12%</span>
             </div>
           </div>
           
           <!-- Code section -->
-          <div class="code-section hidden border-t border-gray-400 pt-3 max-h-32 overflow-y-auto">
-            <div class="bg-gray-100 border border-gray-400 p-3">
-              <div class="text-xs font-mono text-gray-600 mb-2">
-                ${m.name.toLowerCase()}_output.strl | <span class="file-size">0KB</span>
+          <div class="code-section hidden border-t border-gray-400 pt-2 sm:pt-3 max-h-24 sm:max-h-32 overflow-y-auto">
+            <div class="bg-gray-100 border border-gray-400 p-2 sm:p-3">
+              <div class="text-xs font-mono text-gray-600 mb-1 sm:mb-2">
+                ${m.name.toLowerCase()}_pattern.strl | <span class="file-size">0KB</span>
               </div>
-              <pre class="code-container text-xs font-mono">
+              <pre class="code-container text-xs font-mono overflow-x-auto">
                 <code class="text-black"></code>
               </pre>
             </div>
@@ -219,6 +229,7 @@ export async function renderPrompt() {
       const systemMessages = windowDiv.querySelector('.system-messages');
       const cpuUsage = windowDiv.querySelector('.cpu-usage');
       const fileSize = windowDiv.querySelector('.file-size');
+      const neuralActivity = windowDiv.querySelector('.neural-activity');
       
       // Add CSS for old-school effects
       if (!document.querySelector('#retro-styles')) {
@@ -237,12 +248,23 @@ export async function renderPrompt() {
           
           .flicker { animation: flicker 3s infinite; }
           @keyframes flicker { 0%, 98% { opacity: 1; } 99% { opacity: 0.8; } 100% { opacity: 1; } }
+          
+          .neural-pulse { animation: pulse 2s infinite; }
+          @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
         `;
         document.head.appendChild(style);
       }
       
-      // Simplified system message cycling for performance
-      const messages = ['NET_INIT.OK', 'LOAD_ENGINE...', 'BUF_ALLOC', 'SYN_READY', 'WAIT_INPUT', 'PROC_PROMPT'];
+      // Enhanced system message cycling with lab terminology
+      const messages = [
+        'NEURAL_INIT.OK', 
+        'PATTERN_SCAN...', 
+        'CREATIVITY_MATRIX', 
+        'EXPRESSION_READY', 
+        'ANALYZING_SIGNATURE',
+        'LINGUISTIC_DECODE',
+        'SYNTHESIS_ACTIVE'
+      ];
       let messageIndex = 0;
       const messageInterval = setInterval(() => {
         const lines = systemMessages.children;
@@ -251,9 +273,17 @@ export async function renderPrompt() {
           lines[1].innerHTML = `<span class="truncate">${messages[messageIndex]} <span class="blink">█</span></span>`;
           messageIndex = (messageIndex + 1) % messages.length;
         }
-      }, 3000 + Math.random() * 2000); // Stagger intervals
+      }, 3000 + Math.random() * 2000);
       
-      // Less frequent resource monitoring for performance
+      // Neural activity indicator
+      const activityPatterns = ['◉◉◉◉◉', '◉◉◉◉○', '◉◉◉○○', '◉◉○○○', '◉○○○○'];
+      setInterval(() => {
+        const pattern = activityPatterns[Math.floor(Math.random() * activityPatterns.length)];
+        neuralActivity.textContent = pattern;
+        neuralActivity.className = `neural-activity text-xs ${pattern.includes('◉◉◉') ? 'text-green-600' : 'text-yellow-600'}`;
+      }, 2000);
+      
+      // Resource monitoring
       setInterval(() => {
         const cpu = Math.floor(Math.random() * 30 + 5);
         cpuUsage.textContent = cpu + '%';
@@ -289,8 +319,8 @@ export async function renderPrompt() {
         })
         .then(cardData => {
           if (cardData.success) {
-            statusBadge.innerHTML = '<span class="bg-green-500 text-white px-2 py-1 border border-green-700 flicker text-xs">OK</span>';
-            audioStatus.textContent = 'READY';
+            statusBadge.innerHTML = '<span class="bg-green-500 text-white px-1 sm:px-2 py-1 border border-green-700 flicker text-xs">ACTIVE</span>';
+            audioStatus.textContent = 'SYNTHESIZING';
             
             // Load Strudel embed
             replContainer.innerHTML = `
@@ -307,26 +337,26 @@ export async function renderPrompt() {
             codeElement.textContent = cardData.code;
             fileSize.textContent = Math.ceil(cardData.code.length / 1024) + 'KB';
           } else {
-            statusBadge.innerHTML = '<span class="bg-red-500 text-white px-2 py-1 border border-red-700 blink text-xs">ERR</span>';
-            audioStatus.textContent = 'FAIL';
+            statusBadge.innerHTML = '<span class="bg-red-500 text-white px-1 sm:px-2 py-1 border border-red-700 blink text-xs">ERROR</span>';
+            audioStatus.textContent = 'FAULT';
             
             replContainer.innerHTML = `
               <div class="absolute inset-0 pointer-events-none">
                 <div class="scanlines"></div>
               </div>
               <div class="flex items-center justify-center h-full text-red-400 font-mono">
-                <div class="text-center border border-red-500 bg-red-900/20 p-3">
-                  <div class="text-sm mb-1 blink">ERROR</div>
-                  <div class="text-xs">NEURAL_FAULT</div>
+                <div class="text-center border border-red-500 bg-red-900/20 p-2 sm:p-3">
+                  <div class="text-xs sm:text-sm mb-1 blink">NEURAL_FAULT</div>
+                  <div class="text-xs">PATTERN_CORRUPT</div>
                 </div>
               </div>
             `;
             
-            codeElement.textContent = cardData.rawResponse || 'NO_RESPONSE_DATA.TXT';
+            codeElement.textContent = cardData.rawResponse || 'NO_PATTERN_DATA.TXT';
             fileSize.textContent = '0KB';
           }
         }).catch(e => {
-          statusBadge.innerHTML = '<span class="bg-yellow-500 text-black px-2 py-1 border border-yellow-700 blink text-xs">WARN</span>';
+          statusBadge.innerHTML = '<span class="bg-yellow-500 text-black px-1 sm:px-2 py-1 border border-yellow-700 blink text-xs">TIMEOUT</span>';
           audioStatus.textContent = 'NET_ERR';
           
           replContainer.innerHTML = `
@@ -334,8 +364,8 @@ export async function renderPrompt() {
               <div class="scanlines"></div>
             </div>
             <div class="flex items-center justify-center h-full text-yellow-400 font-mono">
-              <div class="text-center border border-yellow-500 bg-yellow-900/20 p-3">
-                <div class="text-sm mb-1 blink">TIMEOUT</div>
+              <div class="text-center border border-yellow-500 bg-yellow-900/20 p-2 sm:p-3">
+                <div class="text-xs sm:text-sm mb-1 blink">CONNECTION_LOST</div>
                 <div class="text-xs">RETRY: 3/3</div>
               </div>
             </div>
@@ -348,6 +378,6 @@ export async function renderPrompt() {
     
   } catch (e) {
     document.getElementById('model-grid').innerHTML = 
-      '<div class="text-center bg-red-100 border-2 border-red-500 p-4 font-mono">CRITICAL_ERROR: UNABLE_TO_LOAD_EXPERIMENT_DATA.DAT</div>';
+      '<div class="text-center bg-red-100 border-2 border-red-500 p-4 font-mono">CRITICAL_ERROR: UNABLE_TO_LOAD_PATTERN_DATA.DAT</div>';
   }
 } 
