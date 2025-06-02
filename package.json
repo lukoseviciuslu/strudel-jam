@@ -19,6 +19,7 @@
   "dependencies": {
     "@strudel/core": "^1.2.2",
     "@strudel/mini": "^1.2.2",
+    "@strudel/tonal": "^1.2.2",
     "@strudel/web": "^1.2.3"
   },
   "notes": {
