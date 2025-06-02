@@ -1,0 +1,37 @@
+{
+  "model": "gpt-4o-mini",
+  "router_id": "openai/gpt-4o-mini",
+  "timestamp": "2025-06-02T02:02:50.522095+00:00Z",
+  "success": false,
+  "durationSec": 7.0,
+  "attempts": 3,
+  "code": null,
+  "compileError": "Cannot find package '@strudel/core' imported from /home/runner/work/strudel-jam/strudel-jam/[eval]",
+  "rawResponse": "<CODE>\nn(\"<0 2 4 5 7 5 4 2>*4\") \n.scale(\"C:major\") \n.s(\"gm_acoustic_guitar_steel\") \n.clip(1) \n.release(0.5)\n</CODE>",
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "<CODE>\nn(\"<0 2 4 5 0 2 4 5>*4\") \n.scale(\"C:major\") \n.s(\"gm_acoustic_guitar_steel\") \n.release(0.3) \n.gain(0.7)\n</CODE>"
+    },
+    {
+      "role": "user",
+      "content": "The Strudel code above failed to compile with this error:\nCannot find package '@strudel/core' imported from /home/runner/work/strudel-jam/strudel-jam/[eval]\n\nPlease correct the code and return *only* a working Strudel snippet inside a <CODE>...</CODE> tag or fenced ``` block."
+    },
+    {
+      "role": "assistant",
+      "content": "<CODE>\nn(\"<0 2 4 5 7 5 4 2>*4\") \n.scale(\"C:major\") \n.s(\"gm_acoustic_guitar_steel\") \n.release(0.3) \n.gain(0.8)\n</CODE>"
+    },
+    {
+      "role": "user",
+      "content": "The Strudel code above failed to compile with this error:\nCannot find package '@strudel/core' imported from /home/runner/work/strudel-jam/strudel-jam/[eval]\n\nPlease correct the code and return *only* a working Strudel snippet inside a <CODE>...</CODE> tag or fenced ``` block."
+    },
+    {
+      "role": "assistant",
+      "content": "<CODE>\nn(\"<0 2 4 5 7 5 4 2>*4\") \n.scale(\"C:major\") \n.s(\"gm_acoustic_guitar_steel\") \n.clip(1) \n.release(0.5)\n</CODE>"
+    },
+    {
+      "role": "user",
+      "content": "The Strudel code above failed to compile with this error:\nCannot find package '@strudel/core' imported from /home/runner/work/strudel-jam/strudel-jam/[eval]\n\nPlease correct the code and return *only* a working Strudel snippet inside a <CODE>...</CODE> tag or fenced ``` block."
+    }
+  ]
+}
