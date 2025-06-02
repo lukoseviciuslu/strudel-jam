@@ -20,6 +20,9 @@
             'terminal-green': '#00ff00',
             'terminal-bg': '#000000',
             'desktop-blue': '#5A9FD4',
+          },
+          screens: {
+            'xs': '475px',
           }
         }
       }
@@ -32,8 +35,13 @@
       user-select: none;
       z-index: 10;
       overflow: hidden;
-      min-width: 480px;
+      min-width: 320px;
       min-height: 300px;
+    }
+    @media (min-width: 640px) {
+      .window, .model-window {
+        min-width: 480px;
+      }
     }
     .window.dragging, .model-window.dragging {
       z-index: 50;
@@ -93,16 +101,54 @@
       background: linear-gradient(45deg, #5A9FD4 0%, #7BB3E0 50%, #5A9FD4 100%);
       background-attachment: fixed;
     }
+    .matrix-rain {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+      opacity: 0.1;
+      background-image: 
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(0, 255, 0, 0.03) 2px,
+          rgba(0, 255, 0, 0.03) 4px
+        );
+      animation: matrix 20s linear infinite;
+    }
+    @keyframes matrix {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(100px); }
+    }
+    .neural-grid {
+      background-image: 
+        linear-gradient(rgba(0, 255, 0, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 0, 0.1) 1px, transparent 1px);
+      background-size: 20px 20px;
+      animation: grid-move 10s linear infinite;
+    }
+    @keyframes grid-move {
+      0% { background-position: 0 0; }
+      100% { background-position: 20px 20px; }
+    }
   </style>
 </head>
 <body class="text-black font-mono text-sm min-h-screen overflow-hidden relative">
   <!-- Windows XP Desktop Background -->
   <div class="fixed inset-0 bg-gradient-to-br from-desktop-blue to-blue-600">
+    <div class="matrix-rain"></div>
     <!-- Desktop icons area -->
-    <div class="absolute top-4 left-4 space-y-6">
+    <div class="absolute top-4 left-4 space-y-6 hidden sm:block">
       <div class="flex flex-col items-center text-white text-xs">
         <div class="w-8 h-8 bg-yellow-500 border border-yellow-700 flex items-center justify-center mb-1">♪</div>
         <span class="bg-blue-600/50 px-1 rounded">Experiments</span>
+      </div>
+      <div class="flex flex-col items-center text-white text-xs">
+        <div class="w-8 h-8 bg-purple-500 border border-purple-700 flex items-center justify-center mb-1">🧠</div>
+        <span class="bg-blue-600/50 px-1 rounded">Neural Lab</span>
       </div>
     </div>
   </div>
@@ -110,34 +156,40 @@
   <!-- Taskbar -->
   <div class="fixed bottom-0 left-0 right-0 bg-win-gray border-t-2 border-gray-400 h-10 flex items-center px-2 z-50">
     <!-- Start button -->
-    <div class="bg-green-500 border-2 border-gray-400 px-3 py-1 text-xs font-bold text-black mr-2 cursor-pointer hover:bg-green-400">
+    <a href="../" class="bg-green-500 border-2 border-gray-400 px-2 sm:px-3 py-1 text-xs font-bold text-black mr-2 cursor-pointer hover:bg-green-400 no-underline">
       Start
-    </div>
+    </a>
     
     <!-- Running programs -->
-    <div class="flex space-x-1">
-      <div class="bg-gray-300 border border-gray-400 px-2 py-1 text-xs font-system">
+    <div class="flex space-x-1 flex-1 overflow-x-auto">
+      <div class="bg-gray-300 border border-gray-400 px-2 py-1 text-xs font-system whitespace-nowrap">
         STRUDEL-JAM.EXE
       </div>
+      <div class="bg-gray-300 border border-gray-400 px-2 py-1 text-xs font-system whitespace-nowrap">
+        NOTEPAD.EXE
+      </div>
+      <a href="https://github.com/lukoseviciuslu/strudel-jam" target="_blank" class="bg-gray-300 border border-gray-400 px-2 py-1 text-xs font-system hover:bg-gray-200 cursor-pointer no-underline text-black whitespace-nowrap">
+        GITHUB
+      </a>
     </div>
     
     <!-- System tray -->
-    <div class="ml-auto flex items-center space-x-2 text-xs font-system">
+    <div class="ml-2 flex items-center space-x-1 sm:space-x-2 text-xs font-system">
       <span class="bg-gray-200 border border-gray-400 px-2 py-1" id="clock"></span>
     </div>
   </div>
 
   <!-- Main Application Window -->
-  <div class="window bg-win-gray border-2 border-gray-400 shadow-lg" style="top: 20px; left: 20px; width: calc(100vw - 60px); height: calc(100vh - 100px);">
+  <div class="window bg-win-gray border-2 border-gray-400 shadow-lg" style="top: 10px; left: 10px; right: 10px; bottom: 50px;">
     <!-- Title bar -->
     <div class="window-title bg-win-blue text-white px-2 py-1 flex items-center justify-between border-b border-gray-400">
       <div class="flex items-center space-x-2">
         <div class="w-4 h-4 bg-white border border-gray-400 flex items-center justify-center text-xs font-bold text-black">S</div>
-        <span class="font-system text-sm">STRUDEL-JAM.EXE - Experiment Viewer</span>
+        <span class="font-system text-xs sm:text-sm truncate">STRUDEL-JAM.EXE - Machine Creativity Analysis System</span>
       </div>
       <div class="flex space-x-1">
         <div class="w-4 h-4 bg-gray-300 border border-gray-600 text-xs flex items-center justify-center cursor-pointer hover:bg-gray-200">_</div>
-        <div class="w-4 h-4 bg-gray-300 border border-gray-600 text-xs flex items-center justify-center cursor-pointer hover:bg-gray-200">□</div>
+        <div class="w-4 h-4 bg-gray-300 border border-gray-600 text-xs flex items-center justify-center cursor-pointer hover:bg-gray-200 hidden xs:flex">□</div>
         <div class="w-4 h-4 bg-red-500 border border-gray-600 text-xs flex items-center justify-center text-white cursor-pointer hover:bg-red-400">×</div>
       </div>
     </div>
@@ -146,32 +198,34 @@
     <div class="window-content bg-white h-full overflow-auto">
       <!-- Navigation bar -->
       <div class="bg-gray-200 border-b border-gray-400 p-2">
-        <a href="../" class="inline-flex items-center text-black hover:bg-gray-300 px-2 py-1 border border-gray-400 bg-white font-system text-xs">
-          ← BACK TO EXPERIMENTS.DIR
+        <a href="../" class="inline-flex items-center text-black hover:bg-gray-300 px-2 py-1 border border-gray-400 bg-white font-system text-xs no-underline">
+          ← BACK TO PATTERN_DATABASE.DIR
         </a>
       </div>
 
       <!-- Header section -->
-      <div class="p-4 border-b-2 border-gray-400">
+      <div class="p-2 sm:p-4 border-b-2 border-gray-400">
         <div class="flex items-center space-x-3 mb-2">
-          <div class="w-8 h-8 bg-blue-500 border border-gray-600 flex items-center justify-center text-white font-bold">♪</div>
-          <h1 id="prompt-title" class="text-2xl font-bold text-black font-mono tracking-wider uppercase"></h1>
+          <div class="w-8 h-8 bg-blue-500 border border-gray-600 flex items-center justify-center text-white font-bold">🧠</div>
+          <h1 id="prompt-title" class="text-lg sm:text-2xl font-bold text-black font-mono tracking-wider uppercase truncate"></h1>
         </div>
         
         <!-- Terminal-style prompt display -->
-        <div class="bg-terminal-bg text-terminal-green p-3 border border-gray-500 font-mono text-xs">
-          <div class="mb-1">C:\EXPERIMENTS\> LOAD_PROMPT.BAT</div>
-          <div class="mb-1">C:\EXPERIMENTS\> PROMPT_TEXT:</div>
-          <div id="prompt-text" class="ml-4 text-yellow-300"></div>
-          <div class="mt-1">C:\EXPERIMENTS\> STATUS: READY_FOR_COMPARISON</div>
-          <div class="mt-1">C:\EXPERIMENTS\> SPAWNING_MODEL_WINDOWS...</div>
+        <div class="bg-terminal-bg text-terminal-green p-2 sm:p-3 border border-gray-500 font-mono text-xs overflow-x-auto">
+          <div class="mb-1">C:\NEURAL_LAB\> LOAD_PATTERN.BAT</div>
+          <div class="mb-1">C:\NEURAL_LAB\> INITIALIZING_COMPARISON_MATRIX...</div>
+          <div class="mb-1">C:\NEURAL_LAB\> PROMPT_SIGNATURE:</div>
+          <div id="prompt-text" class="ml-4 text-yellow-300 whitespace-pre-wrap"></div>
+          <div class="mt-1">C:\NEURAL_LAB\> STATUS: ANALYZING_CREATIVE_PATTERNS</div>
+          <div class="mt-1">C:\NEURAL_LAB\> SPAWNING_NEURAL_INTERFACES... <span class="blink">█</span></div>
         </div>
+        
       </div>
 
       <!-- Desktop workspace for model windows -->
-      <div id="desktop-workspace" class="relative bg-gray-100 min-h-[600px] p-4">
-        <div class="text-center text-gray-500 font-mono text-sm mb-4">
-          [ DESKTOP_WORKSPACE.AREA ] - Model windows will appear here
+      <div id="desktop-workspace" class="relative bg-gray-100 min-h-[400px] sm:min-h-[600px] p-2 sm:p-4 neural-grid">
+        <div class="text-center text-gray-500 font-mono text-xs mb-4 bg-white/80 p-2 border border-gray-400 inline-block">
+          [ NEURAL_WORKSPACE.MATRIX ] - Model expression patterns will manifest here
         </div>
         <div id="model-grid"></div>
       </div>
@@ -202,6 +256,34 @@
       document.addEventListener('mousedown', startDragOrResize);
       document.addEventListener('mousemove', dragOrResize);
       document.addEventListener('mouseup', endDragOrResize);
+      
+      // Touch support for mobile
+      document.addEventListener('touchstart', handleTouchStart, {passive: false});
+      document.addEventListener('touchmove', handleTouchMove, {passive: false});
+      document.addEventListener('touchend', handleTouchEnd);
+    }
+
+    function handleTouchStart(e) {
+      const touch = e.touches[0];
+      const mouseEvent = new MouseEvent('mousedown', {
+        clientX: touch.clientX,
+        clientY: touch.clientY
+      });
+      e.target.dispatchEvent(mouseEvent);
+    }
+
+    function handleTouchMove(e) {
+      const touch = e.touches[0];
+      const mouseEvent = new MouseEvent('mousemove', {
+        clientX: touch.clientX,
+        clientY: touch.clientY
+      });
+      e.target.dispatchEvent(mouseEvent);
+    }
+
+    function handleTouchEnd(e) {
+      const mouseEvent = new MouseEvent('mouseup', {});
+      e.target.dispatchEvent(mouseEvent);
     }
 
     function bringToFront(window) {
@@ -273,11 +355,13 @@
         const currentWidth = resizedElement.offsetWidth;
         const currentHeight = resizedElement.offsetHeight;
         
+        const minWidth = window.innerWidth < 640 ? 320 : 480;
+        
         if (resizeType === 'se') {
-          resizedElement.style.width = Math.max(480, currentWidth + deltaX) + 'px';
+          resizedElement.style.width = Math.max(minWidth, currentWidth + deltaX) + 'px';
           resizedElement.style.height = Math.max(300, currentHeight + deltaY) + 'px';
         } else if (resizeType === 'e') {
-          resizedElement.style.width = Math.max(480, currentWidth + deltaX) + 'px';
+          resizedElement.style.width = Math.max(minWidth, currentWidth + deltaX) + 'px';
         } else if (resizeType === 's') {
           resizedElement.style.height = Math.max(300, currentHeight + deltaY) + 'px';
         }
