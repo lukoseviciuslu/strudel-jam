@@ -1,5 +1,40 @@
 [
   {
+    "promptSlug": "country-music",
+    "title": "country music",
+    "dateRun": "2025-06-02",
+    "models": [
+      {
+        "name": "gpt-4o-mini",
+        "card": "country-music/gpt-4o-mini.json"
+      },
+      {
+        "name": "gpt-4o",
+        "card": "country-music/gpt-4o.json"
+      },
+      {
+        "name": "claude-3-haiku",
+        "card": "country-music/claude-3-haiku.json"
+      },
+      {
+        "name": "claude-3-5-sonnet",
+        "card": "country-music/claude-3-5-sonnet.json"
+      },
+      {
+        "name": "claude-sonnet-4",
+        "card": "country-music/claude-sonnet-4.json"
+      },
+      {
+        "name": "claude-3-7-sonnet",
+        "card": "country-music/claude-3-7-sonnet.json"
+      },
+      {
+        "name": "gemini-2-5-pro-preview",
+        "card": "country-music/gemini-2-5-pro-preview.json"
+      }
+    ]
+  },
+  {
     "promptSlug": "the-color-yellow",
     "title": "the color yellow",
     "dateRun": "2025-06-01",

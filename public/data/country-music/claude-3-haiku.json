@@ -1,0 +1,37 @@
+{
+  "model": "claude-3-haiku",
+  "router_id": "anthropic/claude-3-haiku",
+  "timestamp": "2025-06-02T02:02:51.656050+00:00Z",
+  "success": false,
+  "durationSec": 8.13,
+  "attempts": 3,
+  "code": null,
+  "compileError": "Cannot find package '@strudel/core' imported from /home/runner/work/strudel-jam/strudel-jam/[eval]",
+  "rawResponse": "Apologies for the previous issue. Here's a corrected version of the Strudel code that should work:\n\n<CODE>\nimport { stack, n, s } from '@strudel/core'\n\nlet melody = n(\"<0 2 3 5 3 2 0 2 3 5 3 2>\")\n.scale(\"C:major\")\n.s(\"gm_acoustic_guitar_steel\")\n.release(.15).decay(.15)\n.lpf(sine.range(500,3000).slow(8))\n.lpq(sine.range(2,8).slow(4))\n.gain(sine.range(.6,1).slow(4))\n.pan(saw.slow(16))\n\nstack(\n  melody,\n  melody.offset(4).jux(rev).room(.25),\n  s(\"bd\\*2 \\[~ sd\\] \\[~ sd\\]\").bank(\"RolandTR808\"),\n  s(\"hh\\*8 \\[~ cp\\]\\*2\").bank(\"RolandTR808\")\n)\n</CODE>",
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "<CODE>\nlet melody = n(\"<0 2 3 5 3 2 0 2 3 5 3 2>\")\n.scale(\"C:major\")\n.s(\"gm_acoustic_guitar_steel\")\n.release(.15).decay(.15)\n.lpf(sine.range(500,3000).slow(8))\n.lpq(sine.range(2,8).slow(4))\n.gain(sine.range(.6,1).slow(4))\n.pan(saw.slow(16))\n\nstack(\n  melody,\n  melody.offset(4).jux(rev).room(.25),\n  s(\"bd\\*2 \\[~ sd\\] \\[~ sd\\]\").bank(\"RolandTR808\"),\n  s(\"hh\\*8 \\[~ cp\\]\\*2\").bank(\"RolandTR808\")\n)\n</CODE>"
+    },
+    {
+      "role": "user",
+      "content": "The Strudel code above failed to compile with this error:\nCannot find package '@strudel/core' imported from /home/runner/work/strudel-jam/strudel-jam/[eval]\n\nPlease correct the code and return *only* a working Strudel snippet inside a <CODE>...</CODE> tag or fenced ``` block."
+    },
+    {
+      "role": "assistant",
+      "content": "```\nn(\"<0 2 3 5 3 2 0 2 3 5 3 2>\")\n.scale(\"C:major\")\n.s(\"gm_acoustic_guitar_steel\")\n.release(.15).decay(.15)\n.lpf(sine.range(500,3000).slow(8))\n.lpq(sine.range(2,8).slow(4))\n.gain(sine.range(.6,1).slow(4))\n.pan(saw.slow(16))\n\ns(\"bd\\*2 \\[~ sd\\] \\[~ sd\\]\").bank(\"RolandTR808\")\ns(\"hh\\*8 \\[~ cp\\]\\*2\").bank(\"RolandTR808\")\n```"
+    },
+    {
+      "role": "user",
+      "content": "The Strudel code above failed to compile with this error:\nCannot find package '@strudel/core' imported from /home/runner/work/strudel-jam/strudel-jam/[eval]\n\nPlease correct the code and return *only* a working Strudel snippet inside a <CODE>...</CODE> tag or fenced ``` block."
+    },
+    {
+      "role": "assistant",
+      "content": "Apologies for the previous issue. Here's a corrected version of the Strudel code that should work:\n\n<CODE>\nimport { stack, n, s } from '@strudel/core'\n\nlet melody = n(\"<0 2 3 5 3 2 0 2 3 5 3 2>\")\n.scale(\"C:major\")\n.s(\"gm_acoustic_guitar_steel\")\n.release(.15).decay(.15)\n.lpf(sine.range(500,3000).slow(8))\n.lpq(sine.range(2,8).slow(4))\n.gain(sine.range(.6,1).slow(4))\n.pan(saw.slow(16))\n\nstack(\n  melody,\n  melody.offset(4).jux(rev).room(.25),\n  s(\"bd\\*2 \\[~ sd\\] \\[~ sd\\]\").bank(\"RolandTR808\"),\n  s(\"hh\\*8 \\[~ cp\\]\\*2\").bank(\"RolandTR808\")\n)\n</CODE>"
+    },
+    {
+      "role": "user",
+      "content": "The Strudel code above failed to compile with this error:\nCannot find package '@strudel/core' imported from /home/runner/work/strudel-jam/strudel-jam/[eval]\n\nPlease correct the code and return *only* a working Strudel snippet inside a <CODE>...</CODE> tag or fenced ``` block."
+    }
+  ]
+}

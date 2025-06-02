@@ -1,0 +1,37 @@
+{
+  "model": "gpt-4o",
+  "router_id": "openai/gpt-4o",
+  "timestamp": "2025-06-02T02:02:50.996920+00:00Z",
+  "success": false,
+  "durationSec": 7.47,
+  "attempts": 3,
+  "code": null,
+  "compileError": "Cannot find package '@strudel/core' imported from /home/runner/work/strudel-jam/strudel-jam/[eval]",
+  "rawResponse": "```strudel\nnote(\"c4 e4 g4 a4 f4 e4 c4\").sound(\"gm_acoustic_guitar_steel\")\n.release(0.5).gain(0.8)\n```",
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "<CODE>\nn(\"0 4 5 3 0 2 4\").scale(\"C:major\")\n.s(\"gm_acoustic_guitar_steel\")\n.lp(4000).gain(.8).release(.5)\n._punchcard({cycles:4, labels:1})\n</CODE>"
+    },
+    {
+      "role": "user",
+      "content": "The Strudel code above failed to compile with this error:\nCannot find package '@strudel/core' imported from /home/runner/work/strudel-jam/strudel-jam/[eval]\n\nPlease correct the code and return *only* a working Strudel snippet inside a <CODE>...</CODE> tag or fenced ``` block."
+    },
+    {
+      "role": "assistant",
+      "content": "<CODE>\nn(\"0 4 5 3 0 2 4\").scale(\"C:maj\")\n.s(\"gm_acoustic_guitar_steel\")\n.lp(4000).gain(0.8).release(0.5)\n</CODE>"
+    },
+    {
+      "role": "user",
+      "content": "The Strudel code above failed to compile with this error:\nCannot find package '@strudel/core' imported from /home/runner/work/strudel-jam/strudel-jam/[eval]\n\nPlease correct the code and return *only* a working Strudel snippet inside a <CODE>...</CODE> tag or fenced ``` block."
+    },
+    {
+      "role": "assistant",
+      "content": "```strudel\nnote(\"c4 e4 g4 a4 f4 e4 c4\").sound(\"gm_acoustic_guitar_steel\")\n.release(0.5).gain(0.8)\n```"
+    },
+    {
+      "role": "user",
+      "content": "The Strudel code above failed to compile with this error:\nCannot find package '@strudel/core' imported from /home/runner/work/strudel-jam/strudel-jam/[eval]\n\nPlease correct the code and return *only* a working Strudel snippet inside a <CODE>...</CODE> tag or fenced ``` block."
+    }
+  ]
+}
